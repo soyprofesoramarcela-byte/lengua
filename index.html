@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repaso de Lengua - Págs 46-47</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #e8eff1; display: flex; flex-direction: column; align-items: center; padding: 20px; color: #333; }
+        .container { max-width: 500px; width: 100%; text-align: center; }
+        .card { background: white; min-height: 280px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: flex; justify-content: center; align-items: center; padding: 30px; cursor: pointer; transition: transform 0.6s; transform-style: preserve-3d; position: relative; margin-bottom: 20px; }
+        .card.flipped { transform: rotateY(180deg); }
+        .front, .back { backface-visibility: hidden; position: absolute; width: 90%; padding: 10px; }
+        .back { transform: rotateY(180deg); color: #2980b9; font-size: 1.1em; text-align: left; line-height: 1.4; }
+        .front { font-size: 1.3em; font-weight: bold; color: #2c3e50; }
+        .controls { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
+        button { background: #2c3e50; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        button:active { transform: translateY(2px); }
+        .counter { margin-bottom: 10px; font-weight: bold; color: #7f8c8d; }
+        .footer-note { font-size: 0.8em; color: #95a5a6; margin-top: 40px; border-top: 1px solid #bdc3c7; padding-top: 10px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Estudio de Poesía</h1>
+        <p>Páginas 46 y 47</p>
+        
+        <div class="counter">Tarjeta <span id="currentNum">1</span> de 30</div>
+
+        <div class="card" id="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="front" id="cardFront">Cargando...</div>
+            <div class="back" id="cardBack">Respuesta</div>
+        </div>
+
+        <div class="controls">
+            <button onclick="prevCard(event)">Anterior</button>
+            <button onclick="nextCard(event)">Siguiente</button>
+        </div>
+
+        <div class="footer-note">
+            <b>Instrucciones:</b> Tocá la tarjeta para ver la respuesta.<br>
+            Material interactivo - Lengua (Métrica y Recursos).
+        </div>
+    </div>
+
+    <script>
+        const cards = [
+            { f: "¿Qué es la Métrica?", b: "Es la medida silábica de los versos. Se basa en contar cuántas sílabas tiene cada renglón siguiendo reglas gramaticales y poéticas." },
+            { f: "La Sinalefa (Definición Textual)", b: "Es la unión de la vocal final de una palabra con la vocal inicial de la siguiente, formando una sola sílaba métrica (ej: 'lA-Alma')." },
+            { f: "Ejemplo práctico de Sinalefa", b: "En el verso 'Va a la escuela', las sílabas 'Va' y 'a' se unen. En lugar de 5 sílabas, el poeta cuenta 4." },
+            { f: "Regla del Acento Final: Aguda", b: "Si la última palabra del verso es aguda (acentuada al final, como 'amor'), se debe sumar una sílaba (+1) al conteo total." },
+            { f: "Regla del Acento Final: Esdrújula", b: "Si la última palabra es esdrújula (acentuada en la antepenúltima, como 'pájaro'), se debe resta una sílaba (-1) al conteo total." },
+            { f: "Regla del Acento Final: Grave", b: "Si el verso termina en palabra grave (acentuada en la penúltima, como 'casa'), el conteo de sílabas no se modifica." },
+            { f: "¿Qué es la Rima?", b: "Es la coincidencia de sonidos finales entre dos o más versos, contando a partir de la última vocal acentuada de cada verso." },
+            { f: "Rima Consonante (Definición)", b: "Se produce cuando coinciden todos los sonidos (vocales y consonantes) a partir de la última vocal acentuada. Ej: viento/siento." },
+            { f: "Rima Asonante (Definición)", b: "Se produce cuando solo coinciden los sonidos de las vocales a partir de la última vocal acentuada. Ej: cielo/lejos (e-o)." },
+            { f: "Recursos Literarios: El Estilo", b: "Son herramientas que usa el autor para generar belleza, sugerir sentidos o crear un ritmo especial en el poema." },
+            { f: "La Metáfora (Definición)", b: "Consiste en identificar un elemento con otro por una relación de semejanza, estableciendo que uno 'es' el otro. Ej: 'Tus manos son seda'." },
+            { f: "La Comparación (Definición)", b: "Relaciona dos elementos similares usando nexos comparativos como 'como', 'cual', 'tal como' o 'parece'. Ej: 'Frío como el mármol'." },
+            { f: "Diferencia: Metáfora vs Comparación", b: "La comparación usa un puente (como/parece). La metáfora hace una identidad directa sin palabras de enlace." },
+            { f: "Personificación (Definición)", b: "Consiste en atribuir rasgos, sentimientos o acciones propias de los seres humanos a objetos inanimados o animales." },
+            { f: "Ejemplo de Personificación", b: " 'La luna me miraba con tristeza'. La luna no tiene ojos ni sentimientos humanos, es un recurso poético." },
+            { f: "Encabalgamiento", b: "Se llama Encabalgamiento (pensalo como 'subirse a un caballo' para seguir viaje). Ocurre cuando la frase no termina en el verso y sigue en el próximo." },
+            { f: "Imágenes Sensoriales: ¿Qué son?", b: "Son palabras o frases que evocan sensaciones que podemos percibir a través de los cinco sentidos (vista, oído, tacto, gusto, olfato)." },
+            { f: "Imagen Visual", b: "Referida a la vista. Ej: 'El horizonte teñido de violeta' o 'La nieve blanca sobre el tejado'." },
+            { f: "Imagen Auditiva", b: "Referida al oído. Ej: 'El murmullo del arroyo' o 'El estruendo de las campanas'." },
+            { f: "Imagen Táctil", b: "Referida al tacto. Ej: 'La superficie rugosa de la piedra' o 'El viento helado en la cara'." },
+            { f: "Imagen Gustativa", b: "Referida al gusto. Ej: 'El amargo sabor de la despedida' o 'La miel dulce en los labios'." },
+            { f: "Imagen Olfativa", b: "Referida al olfato. Ej: 'El perfume intenso de los jazmines' o 'El olor a tierra mojada'." },
+            { f: "¿Qué es un Verso?", b: "Es cada una de las líneas que conforman un poema. Su ritmo depende de la medida y la rima." },
+            { f: "¿Qué es una Estrofa?", b: "Es el conjunto de versos que se agrupan en una unidad, generalmente separados por un espacio en blanco en el texto." },
+            { f: "Verso Libre", b: "Son versos que no tienen una medida fija de sílabas ni rima, pero mantienen un ritmo interno propio del autor." },
+            { f: "Poema (Definición)", b: "Composición literaria escrita en verso que expresa el mundo subjetivo del autor." },
+            { f: "El Ritmo Poético", b: "Se logra a través de la distribución de los acentos, las pausas, la métrica y la rima, dándole musicalidad al texto." },
+            { f: "Análisis de rima: 'Camino / Destino'", b: "Es Rima Consonante, porque coinciden tanto las vocales como las consonantes desde la 'i' (i-n-o)." },
+            { f: "Análisis de rima: 'Rama / Canta'", b: "Es Rima Asonante, porque solo coinciden las vocales (a-a). La 'm' y la 'nt' son diferentes." },
+            { f: "Hipérbole (Extra)", b: "Es una exageración desmedida para enfatizar una idea o sentimiento. Ej: 'Tengo un sueño que me muero'." }
+        ];
+
+        let currentIdx = 0;
+
+        function updateCard() {
+            const card = document.getElementById('flashcard');
+            card.classList.remove('flipped');
+            setTimeout(() => {
+                document.getElementById('cardFront').innerText = cards[currentIdx].f;
+                document.getElementById('cardBack').innerText = cards[currentIdx].b;
+                document.getElementById('currentNum').innerText = currentIdx + 1;
+            }, 150);
+        }
+
+        function nextCard(e) {
+            e.stopPropagation();
+            currentIdx = (currentIdx + 1) % cards.length;
+            updateCard();
+        }
+
+        function prevCard(e) {
+            e.stopPropagation();
+            currentIdx = (currentIdx - 1 + cards.length) % cards.length;
+            updateCard();
+        }
+
+        updateCard();
+    </script>
+</body>
+</html>
