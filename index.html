@@ -10,7 +10,8 @@
         
         /* Estilo de los Reproductores */
         .audio-section { background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .audio-link { display: block; background: #27ae60; color: white; padding: 10px; margin: 5px 0; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 0.9em; }
+        .audio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .audio-link { background: #27ae60; color: white; padding: 12px 5px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 0.85em; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
         .audio-link:hover { background: #219150; }
 
         .card { background: white; min-height: 280px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: flex; justify-content: center; align-items: center; padding: 30px; cursor: pointer; transition: transform 0.6s; transform-style: preserve-3d; position: relative; margin-bottom: 20px; }
@@ -20,7 +21,7 @@
         .front { font-size: 1.3em; font-weight: bold; color: #2c3e50; }
         
         .controls { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
-        button { background: #2c3e50; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; }
+        button { background: #2c3e50; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .counter { margin-bottom: 10px; font-weight: bold; color: #7f8c8d; }
         .footer-note { font-size: 0.8em; color: #95a5a6; margin-top: 40px; border-top: 1px solid #bdc3c7; padding-top: 10px; }
     </style>
@@ -32,10 +33,14 @@
         <p>Páginas 46 y 47</p>
 
         <div class="audio-section">
-            <p style="margin-top:0; font-weight:bold;">🎵 Escuchar Canciones de Repaso:</p>
-            <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN?is_from_share=1" target="_blank" class="audio-link">▶ Abrir Canción 1 (Mureka)</a>
-            <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN?is_from_share=1" target="_blank" class="audio-link">▶ Abrir Canción 2 (Mureka)</a>
-            <small style="color: #7f8c8d;">(Se abren en una pestaña nueva)</small>
+            <p style="margin-top:0; font-weight:bold;">🎵 Escuchar Resúmenes Cantados:</p>
+            <div class="audio-grid">
+                <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN?is_from_share=1" target="_blank" class="audio-link">▶ Canción 1</a>
+                <a href="https://www.mureka.ai/song-detail/E4LvXjPgYKpRvfN1QyV7uT?is_from_share=1" target="_blank" class="audio-link">▶ Canción 2</a>
+                <a href="https://www.mureka.ai/song-detail/HqJLVorgyxsthbJ3PC6vqv?is_from_share=1" target="_blank" class="audio-link">▶ Canción 3</a>
+                <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN?is_from_share=1" target="_blank" class="audio-link">▶ Canción 4</a>
+            </div>
+            <p style="margin-bottom:0; font-size: 0.75em; color: #7f8c8d; margin-top: 10px;">(Se abren en Mureka.ai)</p>
         </div>
         
         <div class="counter">Tarjeta <span id="currentNum">1</span> de 30</div>
@@ -78,7 +83,7 @@
             { f: "Imagen Visual", b: "Referida a la vista. Ej: 'El horizonte teñido de violeta' o 'La nieve blanca sobre el tejado'." },
             { f: "Imagen Auditiva", b: "Referida al oído. Ej: 'El murmullo del arroyo' o 'El estruendo de las campanas'." },
             { f: "Imagen Táctil", b: "Referida al tacto. Ej: 'La superficie rugosa de la piedra' o 'El viento helado en la cara'." },
-            { f: "Imagen Gustativa", b: "Referida al gusto. Ej: 'El amargo sabor de la desesperida' o 'La miel dulce en los labios'." },
+            { f: "Imagen Gustativa", b: "Referida al gusto. Ej: 'El amargo sabor de la despedida' o 'La miel dulce en los labios'." },
             { f: "Imagen Olfativa", b: "Referida al olfato. Ej: 'El perfume intenso de los jazmines' o 'El olor a tierra mojada'." },
             { f: "¿Qué es un Verso?", b: "Es cada una de las líneas que conforman un poema. Su ritmo depende de la medida y la rima." },
             { f: "¿Qué es una Estrofa?", b: "Es el conjunto de versos que se agrupan en una unidad, generalmente separados por un espacio en blanco en el texto." },
@@ -87,7 +92,7 @@
             { f: "El Ritmo Poético", b: "Se logra a través de la distribución de los acentos, las pausas, la métrica y la rima, dándole musicalidad al texto." },
             { f: "Análisis de rima: 'Camino / Destino'", b: "Es Rima Consonante, porque coinciden tanto las vocales como las consonantes desde la 'i' (i-n-o)." },
             { f: "Análisis de rima: 'Rama / Canta'", b: "Es Rima Asonante, porque solo coinciden las vocales (a-a). La 'm' y la 'nt' son diferentes." },
-            { f: "Octosílabo", b: "Es el verso que tiene exactamente ocho sílabas métricas. Es muy común en la poesía popular." }
+            { f: "Octosílabo", b: "Es el verso que tiene exactamente ocho sílabas métricas. Es muy común en la poesía popular argentina." }
         ];
 
         let currentIdx = 0;
