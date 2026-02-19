@@ -3,125 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAU - Aprendizaje Ubicuo</title>
+    <title>MAU - Innovación Digital</title>
     <style>
-        :root { --p-color: #6c5ce7; --s-color: #00cec9; --accent: #ff7675; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f3f7; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 10px; }
-        .header { background: white; width: 100%; max-width: 500px; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        h2 { color: var(--p-color); margin: 5px 0; font-size: 1.2em; }
-        .info { font-size: 0.9em; color: #636e72; font-weight: bold; }
+        :root {
+            --primario: #FF006E; --secundario: #8338EC; --terciario: #3A86FF;
+            --fondo: #FBFAFF; --texto: #2D3436;
+        }
+
+        body { font-family: 'Arial Rounded MT Bold', sans-serif; background: var(--fondo); margin: 0; display: flex; flex-direction: column; align-items: center; padding: 15px; }
         
-        /* Pestañas */
-        .tabs { display: flex; gap: 10px; margin-bottom: 15px; width: 100%; max-width: 500px; }
-        .tab { flex: 1; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; background: #dfe6e9; transition: 0.3s; }
-        .tab.active { background: var(--p-color); color: white; }
+        .header { text-align: center; width: 100%; max-width: 500px; margin-bottom: 10px;}
+        .titulo-mau { font-size: 1.3em; font-weight: bold; color: var(--secundario); }
+        .info-linea { font-size: 1em; font-weight: bold; border-top: 2px solid #eee; border-bottom: 2px solid #eee; padding: 10px 0; margin-top: 5px; }
+
+        /* Pop-up Tutorial */
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; display: flex; justify-content: center; align-items: center; }
+        .popup { background: white; width: 85%; max-width: 400px; padding: 30px; border-radius: 30px; text-align: center; border: 5px solid var(--terciario); }
+        .btn-entendido { background: var(--terciario); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.2em; margin-top: 15px;}
+
+        /* Menú de Canciones (Ubicuidad Electiva) */
+        .audio-selector { background: white; width: 100%; max-width: 500px; padding: 15px; border-radius: 20px; margin: 15px 0; border: 2px solid var(--secundario); box-sizing: border-box; text-align: center; }
+        .audio-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .btn-play { background: #eee; border: 2px solid var(--secundario); padding: 8px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.8em; }
+        .btn-play.active { background: var(--secundario); color: white; }
+
+        .tabs { display: flex; gap: 10px; width: 100%; max-width: 500px; }
+        .tab { flex: 1; padding: 15px; border: none; border-radius: 15px; cursor: pointer; font-weight: bold; background: #E0E0E0; }
+        .tab.active { background: var(--primario); color: white; transform: scale(1.05); }
 
         .panel { display: none; width: 100%; max-width: 500px; flex-direction: column; align-items: center; }
         .panel.active { display: flex; }
 
-        /* Ruleta */
-        .wheel-container { position: relative; width: 220px; height: 220px; margin: 15px 0; }
-        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 8px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); background: conic-gradient(#ff7675 0% 25%, #fdcb6e 25% 50%, #55efc4 50% 75%, #74b9ff 75% 100%); transition: transform 3s cubic-bezier(0.1, 0, 0.2, 1); }
-        .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #2d3436; z-index: 10; }
-        .play-btn { background: #d63031; color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; font-size: 1.1em; cursor: pointer; box-shadow: 0 5px 0 #a22525; margin-top: 10px; }
-        .play-btn:active { transform: translateY(3px); box-shadow: none; }
-
-        /* Flashcards */
-        .card { background: white; width: 90%; min-height: 200px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; padding: 25px; cursor: pointer; transition: transform 0.6s; transform-style: preserve-3d; position: relative; margin: 15px 0; }
+        .card { background: white; width: 100%; min-height: 280px; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; padding: 30px; cursor: pointer; transition: 0.6s; transform-style: preserve-3d; position: relative; margin: 20px 0; box-sizing: border-box; }
         .card.flipped { transform: rotateY(180deg); }
-        .front, .back { backface-visibility: hidden; position: absolute; width: 85%; text-align: center; }
-        .back { transform: rotateY(180deg); color: var(--p-color); font-size: 1.1em; }
-        .front { font-size: 1.2em; font-weight: bold; color: #2d3436; }
+        .front, .back { backface-visibility: hidden; position: absolute; width: 85%; text-align: center; font-size: 1.3em; line-height: 1.4; }
+        .back { transform: rotateY(180deg); color: var(--secundario); font-weight: bold; }
+        .front { color: var(--texto); font-weight: bold; }
 
-        .controls { display: flex; gap: 15px; margin-top: 10px; }
-        .nav-btn { background: var(--p-color); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-
-        /* Menú de canciones */
-        .audio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin: 10px 0; }
-        .audio-item { background: #e17055; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-size: 0.8em; font-weight: bold; }
+        .wheel-container { position: relative; width: 260px; height: 260px; margin: 20px 0; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 8px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            background: conic-gradient(#FFBE0B 0% 12%, #FB5607 12% 25%, #FF006E 25% 37%, #8338EC 37% 50%, #3A86FF 50% 62%, #00F5D4 62% 75%, #FEE440 75% 87%, #9B5DE5 87% 100%); 
+            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); }
+        .wheel-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 35px solid var(--texto); z-index: 10; }
+        .play-btn { background: var(--terciario); color: white; border: none; padding: 20px; border-radius: 50px; font-weight: bold; font-size: 1.4em; cursor: pointer; width: 90%; }
     </style>
 </head>
 <body>
 
+    <div id="overlay">
+        <div class="popup">
+            <h3>🚀 ¡HOLA! SOY MAU</h3>
+            <p>👉 <b>Tocá la tarjeta</b> para ver la respuesta.<br><br>👉 ¡Girá la ruleta para jugar!</p>
+            <button class="btn-entendido" onclick="cerrarPopup()">¡VAMOS!</button>
+        </div>
+    </div>
+
     <div class="header">
-        <h2>MAU: Aprendizaje Ubicuo</h2>
-        <div class="info">Materia: Lengua | Tema: Poesías y canciones</div>
-        <div style="font-size: 0.8em; color: var(--p-color); margin-top:5px;">Los recursos poéticos</div>
+        <div class="titulo-mau">Matriz de Aprendizaje Ubicuo (MAU)</div>
+        <div class="info-linea">Materia: Lengua - Tema: Poesías y canciones. Los recursos poéticos</div>
+    </div>
+
+    <div class="audio-selector">
+        <div style="font-size:0.8em; font-weight:bold; color:var(--secundario)">🎵 ELEGÍ TU RITMO (OFFLINE)</div>
+        <div class="audio-buttons">
+            <button class="btn-play" onclick="playSong(1, this)">POP</button>
+            <button class="btn-play" onclick="playSong(2, this)">ROCK</button>
+            <button class="btn-play" onclick="playSong(3, this)">TRAP</button>
+            <button class="btn-play" onclick="playSong(4, this)">FREESTYLE</button>
+        </div>
+        <audio id="mainPlayer" controls style="width:100%; margin-top:10px;"></audio>
     </div>
 
     <div class="tabs">
-        <button class="tab active" onclick="switchTab('aprender')">📖 APRENDER</button>
-        <button class="tab" onclick="switchTab('jugar')">🎮 JUGAR</button>
+        <button class="tab active" onclick="switchTab('aprender', this)">📖 APRENDER</button>
+        <button class="tab" onclick="switchTab('jugar', this)">🔥 TE DESAFÍO</button>
     </div>
 
     <div id="panel-aprender" class="panel active">
-        <div class="audio-grid">
-            <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN" target="_blank" class="audio-item">🎵 Pop Poético</a>
-            <a href="https://www.mureka.ai/song-detail/E4LvXjPgYKpRvfN1QyV7uT" target="_blank" class="audio-item">🎵 Rock Teórico</a>
-            <a href="https://www.mureka.ai/song-detail/HqJLVorgyxsthbJ3PC6vqv" target="_blank" class="audio-item">🎵 Trap Literario</a>
-            <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN" target="_blank" class="audio-item">🎵 Estilo Libre</a>
-        </div>
-        
-        <p style="font-weight: bold; color: #636e72;">Tarjeta <span id="numAprender">1</span> de 9</p>
-        
+        <p>Tarjeta <span id="numAprender">1</span> de 6</p>
         <div class="card" id="cardAprender" onclick="this.classList.toggle('flipped')">
             <div class="front" id="fAprender">Cargando...</div>
-            <div class="back" id="bAprender">Respuesta</div>
+            <div class="back" id="bAprender">Cargando...</div>
         </div>
-
-        <div class="controls">
-            <button class="nav-btn" onclick="move(-1)">Anterior</button>
-            <button class="nav-btn" onclick="move(1)">Siguiente</button>
+        <div style="display:flex; gap:10px; width:100%;">
+            <button class="tab" style="background:var(--secundario); color:white" onclick="move(-1)">ATRÁS</button>
+            <button class="tab" style="background:var(--secundario); color:white" onclick="move(1)">SIGUIENTE</button>
         </div>
     </div>
 
     <div id="panel-jugar" class="panel">
-        <div class="wheel-container">
-            <div class="wheel-pointer"></div>
-            <div class="wheel" id="wheel"></div>
-        </div>
-        
+        <div class="wheel-pointer"></div>
+        <div class="wheel-container"><div class="wheel" id="wheel"></div></div>
         <button class="play-btn" onclick="spinWheel()">¡JUGUEMOS!</button>
-        
-        <p style="font-weight: bold; color: #d63031; margin-top: 20px;">Desafío N°: <span id="numJuego">?</span></p>
-
-        <div class="card" id="cardJuego" onclick="this.classList.toggle('flipped')">
-            <div class="front" id="fJuego">¿Qué te tocará?</div>
+        <div class="card" id="cardJuego" onclick="this.classList.toggle('flipped')" style="border: 4px solid var(--terciario)">
+            <div class="front" id="fJuego">¡Girá la ruleta!</div>
             <div class="back" id="bJuego">...</div>
         </div>
     </div>
 
     <script>
+        // AQUÍ DEBERÁS PEGAR LOS CÓDIGOS BASE64 DE TUS 4 CANCIONES
+        const base64Songs = {
+            1: "data:audio/mp3;base64,PEGAR_AQUI_BASE64_CANCION_1",
+            2: "data:audio/mp3;base64,PEGAR_AQUI_BASE64_CANCION_2",
+            3: "data:audio/mp3;base64,PEGAR_AQUI_BASE64_CANCION_3",
+            4: "data:audio/mp3;base64,PEGAR_AQUI_BASE64_CANCION_4"
+        };
+
         const cards = [
             { f: "¿Qué es la Métrica?", b: "Es la medida de los versos contando sus sílabas." },
             { f: "La Sinalefa", b: "Unir vocal final de una palabra con la inicial de la siguiente." },
-            { f: "Regla de Agudas", b: "Si la palabra final es aguda, sumás 1 sílaba (+1)." },
-            { f: "Regla de Esdrújulas", b: "Si la palabra final es esdrújula, restás 1 sílaba (-1)." },
-            { f: "Encabalgamiento", b: "Cuando el sentido de un verso sigue en el verso de abajo." },
-            { f: "Personificación", b: "Dar cualidades humanas a objetos o animales." },
-            { f: "Metáfora", b: "Decir que una cosa ES otra para compararlas directamente." },
-            { f: "Imagen Visual", b: "Palabras que nos hacen 'ver' algo con la imaginación." },
-            { f: "Imagen Auditiva", b: "Palabras que nos hacen 'oír' un sonido o ruido." }
+            { f: "Encabalgamiento", b: "Se llama Encabalgamiento (pensalo como 'subirse a un caballo' para seguir viaje). La frase sigue abajo." },
+            { f: "Metáfora", b: "Identificar un objeto con otro: 'Tus cabellos son hilos de sol'." },
+            { f: "Personificación", b: "Dar vida a objetos. Ej: 'La luna me miraba'." },
+            { f: "Comparación", b: "Relacionar dos cosas usando el nexo 'COMO'." }
         ];
 
-        let idx = 0;
-        let rotation = 0;
+        let idx = 0; let rotation = 0;
+        function cerrarPopup() { document.getElementById('overlay').style.display = 'none'; }
+        
+        function playSong(id, btn) {
+            const player = document.getElementById('mainPlayer');
+            document.querySelectorAll('.btn-play').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            player.src = base64Songs[id];
+            player.play();
+        }
 
-        function switchTab(mode) {
+        function switchTab(mode, btn) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            event.target.classList.add('active');
+            btn.classList.add('active');
             document.getElementById('panel-' + mode).classList.add('active');
         }
 
         function move(dir) {
             idx = (idx + dir + cards.length) % cards.length;
-            updateAprender();
-        }
-
-        function updateAprender() {
-            const c = document.getElementById('cardAprender');
-            c.classList.remove('flipped');
+            document.getElementById('cardAprender').classList.remove('flipped');
             setTimeout(() => {
                 document.getElementById('fAprender').innerText = cards[idx].f;
                 document.getElementById('bAprender').innerText = cards[idx].b;
@@ -131,22 +149,16 @@
 
         function spinWheel() {
             const wheel = document.getElementById('wheel');
-            const cardJ = document.getElementById('cardJuego');
-            cardJ.classList.remove('flipped');
-            
-            const randomExtra = Math.floor(Math.random() * 360) + 1440; // 4 vueltas min
-            rotation += randomExtra;
+            document.getElementById('cardJuego').classList.remove('flipped');
+            rotation += Math.floor(Math.random() * 360) + 1800; 
             wheel.style.transform = `rotate(${rotation}deg)`;
-
             setTimeout(() => {
-                const randomIdx = Math.floor(Math.random() * cards.length);
-                document.getElementById('numJuego').innerText = randomIdx + 1;
-                document.getElementById('fJuego').innerText = cards[randomIdx].f;
-                document.getElementById('bJuego').innerText = cards[randomIdx].b;
-            }, 3000);
+                const r = Math.floor(Math.random() * cards.length);
+                document.getElementById('fJuego').innerText = cards[r].f;
+                document.getElementById('bJuego').innerText = cards[r].b;
+            }, 4000);
         }
-
-        updateAprender();
+        move(0);
     </script>
 </body>
 </html>
