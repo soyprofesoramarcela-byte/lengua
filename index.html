@@ -5,111 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAU - Matriz de Aprendizaje Ubicuo</title>
     <style>
-        /* ESTÉTICA APPLE: Minimalismo y Claridad */
         :root {
-            --bg-color: #ffffff;
+            --apple-blue: #0071e3;
+            --apple-gray: #f5f5f7;
             --text-main: #1d1d1f;
             --text-sec: #86868b;
-            --accent: #0066cc; /* Azul Apple */
-            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
         }
 
         body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: white;
             color: var(--text-main);
-            margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
             -webkit-font-smoothing: antialiased;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+        header { text-align: center; margin-top: 40px; margin-bottom: 20px; }
+        h1 { font-size: 40px; font-weight: 600; letter-spacing: -0.5px; margin: 0; }
+        .sub { color: var(--text-sec); font-size: 19px; margin-top: 5px; }
 
-        h1 {
-            font-weight: 600;
-            font-size: 40px;
-            letter-spacing: -0.022em;
-            margin: 0;
-        }
-
-        p.subtitulo {
-            font-size: 19px;
-            color: var(--text-sec);
-            font-weight: 400;
-            margin-top: 8px;
-        }
-
-        /* RULETA Y VARILLA */
-        .ruleta-container {
+        /* Contenedor Ruleta */
+        .ruleta-box {
             position: relative;
-            width: 300px;
-            height: 300px;
+            width: 320px;
+            height: 320px;
+            margin: 30px auto;
         }
 
-        /* La varilla (pointer) estilo Apple */
-        .pointer {
+        /* La Varilla (Pointer) */
+        .varilla {
             position: absolute;
-            top: -10px;
+            top: -15px;
             left: 50%;
             transform: translateX(-50%);
             width: 4px;
-            height: 25px;
-            background-color: var(--accent);
+            height: 30px;
+            background: var(--apple-blue);
             border-radius: 2px;
             z-index: 10;
         }
 
-        .ruleta {
+        canvas {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 2px solid #d2d2d7;
-            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        /* CONTENIDO DE CARTAS */
-        #resultado-carta {
-            margin-top: 40px;
+        button {
+            background-color: var(--apple-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 17px;
+            border-radius: 980px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        button:hover { opacity: 0.9; transform: scale(1.02); }
+
+        #carta-display {
             max-width: 500px;
+            margin-top: 40px;
+            padding: 25px;
+            border-radius: 18px;
+            background: var(--apple-gray);
             text-align: center;
-            line-height: 1.5;
-            padding: 20px;
+            min-height: 100px;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>MAR.QR</h1>
-    <p class="subtitulo">Matriz de Aprendizaje Ubicuo (MAU)</p>
+    <h1>MAU</h1>
+    <p class="sub">Matriz de Aprendizaje Ubicuo</p>
 </header>
 
-<div class="ruleta-container">
-    <div class="pointer"></div>
-    <div id="ruleta" class="ruleta">
-        </div>
+<div class="ruleta-box">
+    <div class="varilla"></div>
+    <canvas id="canvas" width="320" height="320"></canvas>
 </div>
 
-<div id="resultado-carta">
-    <p style="color: var(--text-sec);">Gire la ruleta para iniciar el aprendizaje autogestivo.</p>
+<button onclick="girar()">Girar Ruleta</button>
+
+<div id="carta-display">
+    <p style="color:var(--text-sec)">La ruleta seleccionará una de las 30 cartas pedagógicas.</p>
 </div>
 
 <script>
-    // 30 Cartas con Contenido Íntegro
-    const cartasMAU = [
-        { id: 1, contenido: "Texto completo y detallado de la carta 1..." },
-        { id: 2, contenido: "Texto completo y detallado de la carta 2..." },
-        // ... completar hasta la 30
-    ];
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const cartas = Array.from({length: 30}, (_, i) => `Contenido íntegro de la Carta Pedagógica ${i + 1}: Aquí va el desarrollo de los materiales de estudio para la MAU.`);
+    
+    let anguloActual = 0;
+    const numSectores = 30;
+    const arco = Math.PI * 2 / numSectores;
 
-    // Lógica de giro y selección aquí...
+    function dibujarRuleta() {
+        for (let i = 0; i < numSectores; i++) {
+            const ang = i * arco;
+            ctx.fillStyle = i % 2 === 0 ? "#ffffff" : "#f2f2f2";
+            ctx.beginPath();
+            ctx.moveTo(160, 160);
+            ctx.arc(160, 160, 160, ang, ang + arco);
+            ctx.stroke();
+            ctx.fill();
+            ctx.save();
+            ctx.translate(160 + Math.cos(ang + arco / 2) * 130, 160 + Math.sin(ang + arco / 2) * 130);
+            ctx.rotate(ang + arco / 2 + Math.PI / 2);
+            ctx.fillStyle = "#86868b";
+            ctx.fillText(i + 1, -5, 0);
+            ctx.restore();
+        }
+    }
+
+    function girar() {
+        const giroExtra = Math.floor(Math.random() * 360) + 1440; // 4 vueltas min
+        anguloActual += giroExtra;
+        canvas.style.transition = "transform 4s cubic-bezier(0.15, 0, 0.15, 1)";
+        canvas.style.transform = `rotate(${anguloActual}deg)`;
+
+        setTimeout(() => {
+            const indice = Math.floor(numSectores - (anguloActual % 360) / (360 / numSectores)) % numSectores;
+            document.getElementById("carta-display").innerHTML = `<h3>Carta ${indice + 1}</h3><p>${cartas[indice]}</p>`;
+        }, 4000);
+    }
+
+    dibujarRuleta();
 </script>
 
 </body>
