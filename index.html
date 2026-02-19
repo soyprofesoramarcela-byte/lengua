@@ -3,100 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAU - Repaso de Lengua</title>
+    <title>MAU - Aprendizaje Ubicuo</title>
     <style>
-        body { font-family: sans-serif; background: #e8eff1; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .container { max-width: 500px; width: 100%; text-align: center; }
-        .audio-section { background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .audio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .audio-link { background: #27ae60; color: white; padding: 10px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 0.8em; }
+        :root { --p-color: #6c5ce7; --s-color: #00cec9; --accent: #ff7675; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f3f7; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 10px; }
+        .header { background: white; width: 100%; max-width: 500px; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        h2 { color: var(--p-color); margin: 5px 0; font-size: 1.2em; }
+        .info { font-size: 0.9em; color: #636e72; font-weight: bold; }
         
-        /* Ruleta */
-        .ruleta-box { background: #f39c12; color: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #d35400; transition: 0.2s; }
-        .ruleta-box:active { transform: translateY(4px); box-shadow: none; }
+        /* Pestañas */
+        .tabs { display: flex; gap: 10px; margin-bottom: 15px; width: 100%; max-width: 500px; }
+        .tab { flex: 1; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; background: #dfe6e9; transition: 0.3s; }
+        .tab.active { background: var(--p-color); color: white; }
 
-        .card { background: white; min-height: 250px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: flex; justify-content: center; align-items: center; padding: 20px; cursor: pointer; transition: transform 0.6s; transform-style: preserve-3d; position: relative; }
+        .panel { display: none; width: 100%; max-width: 500px; flex-direction: column; align-items: center; }
+        .panel.active { display: flex; }
+
+        /* Ruleta */
+        .wheel-container { position: relative; width: 220px; height: 220px; margin: 15px 0; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 8px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); background: conic-gradient(#ff7675 0% 25%, #fdcb6e 25% 50%, #55efc4 50% 75%, #74b9ff 75% 100%); transition: transform 3s cubic-bezier(0.1, 0, 0.2, 1); }
+        .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #2d3436; z-index: 10; }
+        .play-btn { background: #d63031; color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; font-size: 1.1em; cursor: pointer; box-shadow: 0 5px 0 #a22525; margin-top: 10px; }
+        .play-btn:active { transform: translateY(3px); box-shadow: none; }
+
+        /* Flashcards */
+        .card { background: white; width: 90%; min-height: 200px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; padding: 25px; cursor: pointer; transition: transform 0.6s; transform-style: preserve-3d; position: relative; margin: 15px 0; }
         .card.flipped { transform: rotateY(180deg); }
-        .front, .back { backface-visibility: hidden; position: absolute; width: 90%; }
-        .back { transform: rotateY(180deg); color: #2980b9; text-align: left; }
-        .front { font-size: 1.2em; font-weight: bold; color: #2c3e50; }
-        
-        .controls { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
-        button { background: #2c3e50; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+        .front, .back { backface-visibility: hidden; position: absolute; width: 85%; text-align: center; }
+        .back { transform: rotateY(180deg); color: var(--p-color); font-size: 1.1em; }
+        .front { font-size: 1.2em; font-weight: bold; color: #2d3436; }
+
+        .controls { display: flex; gap: 15px; margin-top: 10px; }
+        .nav-btn { background: var(--p-color); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+
+        /* Menú de canciones */
+        .audio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin: 10px 0; }
+        .audio-item { background: #e17055; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-size: 0.8em; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>MAU: Lengua 46-47</h1>
+    <div class="header">
+        <h2>MAU: Aprendizaje Ubicuo</h2>
+        <div class="info">Materia: Lengua | Tema: Poesías y canciones</div>
+        <div style="font-size: 0.8em; color: var(--p-color); margin-top:5px;">Los recursos poéticos</div>
+    </div>
 
-        <div class="audio-section">
-            <p><strong>Elegí tu ritmo (Menú Electivo):</strong></p>
-            <div class="audio-grid">
-                <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN" target="_blank" class="audio-link">Pop Alegre</a>
-                <a href="https://www.mureka.ai/song-detail/E4LvXjPgYKpRvfN1QyV7uT" target="_blank" class="audio-link">Rock Suave</a>
-                <a href="https://www.mureka.ai/song-detail/HqJLVorgyxsthbJ3PC6vqv" target="_blank" class="audio-link">Trap Teórico</a>
-                <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN" target="_blank" class="audio-link">Estilo Libre</a>
-            </div>
-        </div>
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('aprender')">📖 APRENDER</button>
+        <button class="tab" onclick="switchTab('jugar')">🎮 JUGAR</button>
+    </div>
 
-        <div class="ruleta-box" onclick="ruletaRusa()">
-            🎡 TOCÁ PARA ELEGIR TARJETA AL AZAR<br>
-            <small>(Ideal para jugar en grupo)</small>
+    <div id="panel-aprender" class="panel active">
+        <div class="audio-grid">
+            <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN" target="_blank" class="audio-item">🎵 Pop Poético</a>
+            <a href="https://www.mureka.ai/song-detail/E4LvXjPgYKpRvfN1QyV7uT" target="_blank" class="audio-item">🎵 Rock Teórico</a>
+            <a href="https://www.mureka.ai/song-detail/HqJLVorgyxsthbJ3PC6vqv" target="_blank" class="audio-item">🎵 Trap Literario</a>
+            <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN" target="_blank" class="audio-item">🎵 Estilo Libre</a>
         </div>
         
-        <p>Tarjeta <span id="currentNum">1</span> de 30</p>
-
-        <div class="card" id="flashcard" onclick="this.classList.toggle('flipped')">
-            <div class="front" id="cardFront">Presioná la ruleta o Siguiente</div>
-            <div class="back" id="cardBack">Respuesta</div>
+        <p style="font-weight: bold; color: #636e72;">Tarjeta <span id="numAprender">1</span> de 9</p>
+        
+        <div class="card" id="cardAprender" onclick="this.classList.toggle('flipped')">
+            <div class="front" id="fAprender">Cargando...</div>
+            <div class="back" id="bAprender">Respuesta</div>
         </div>
 
         <div class="controls">
-            <button onclick="prevCard(event)">Anterior</button>
-            <button onclick="nextCard(event)">Siguiente</button>
+            <button class="nav-btn" onclick="move(-1)">Anterior</button>
+            <button class="nav-btn" onclick="move(1)">Siguiente</button>
+        </div>
+    </div>
+
+    <div id="panel-jugar" class="panel">
+        <div class="wheel-container">
+            <div class="wheel-pointer"></div>
+            <div class="wheel" id="wheel"></div>
+        </div>
+        
+        <button class="play-btn" onclick="spinWheel()">¡JUGUEMOS!</button>
+        
+        <p style="font-weight: bold; color: #d63031; margin-top: 20px;">Desafío N°: <span id="numJuego">?</span></p>
+
+        <div class="card" id="cardJuego" onclick="this.classList.toggle('flipped')">
+            <div class="front" id="fJuego">¿Qué te tocará?</div>
+            <div class="back" id="bJuego">...</div>
         </div>
     </div>
 
     <script>
         const cards = [
-            { f: "¿Qué es la Métrica?", b: "Es la medida silábica de los versos contando sílabas según reglas poéticas." },
-            { f: "La Sinalefa", b: "Unión de la vocal final de una palabra con la inicial de la siguiente en una sola sílaba." },
-            { f: "Regla: Aguda", b: "Si la última palabra es aguda, se suma una sílaba (+1)." },
-            { f: "Regla: Esdrújula", b: "Si la última palabra es esdrújula, se resta una sílaba (-1)." },
-            { f: "Regla: Grave", b: "Si la última palabra es grave, el número de sílabas no cambia." },
-            { f: "Encabalgamiento", b: "Se llama Encabalgamiento (pensalo como 'subirse a un caballo' para seguir viaje). Cuando la frase sigue en el verso de abajo." },
-            { f: "Personificación", b: "Atribuir rasgos o acciones humanas a objetos o animales." },
-            { f: "Metáfora", b: "Identificar un elemento con otro directamente: 'Tus manos son seda'." },
-            { f: "Comparación", b: "Relación de semejanza usando nexos como 'como' o 'parece'." }
-            /* ... podrías seguir agregando las 30 aquí ... */
+            { f: "¿Qué es la Métrica?", b: "Es la medida de los versos contando sus sílabas." },
+            { f: "La Sinalefa", b: "Unir vocal final de una palabra con la inicial de la siguiente." },
+            { f: "Regla de Agudas", b: "Si la palabra final es aguda, sumás 1 sílaba (+1)." },
+            { f: "Regla de Esdrújulas", b: "Si la palabra final es esdrújula, restás 1 sílaba (-1)." },
+            { f: "Encabalgamiento", b: "Cuando el sentido de un verso sigue en el verso de abajo." },
+            { f: "Personificación", b: "Dar cualidades humanas a objetos o animales." },
+            { f: "Metáfora", b: "Decir que una cosa ES otra para compararlas directamente." },
+            { f: "Imagen Visual", b: "Palabras que nos hacen 'ver' algo con la imaginación." },
+            { f: "Imagen Auditiva", b: "Palabras que nos hacen 'oír' un sonido o ruido." }
         ];
 
-        let currentIdx = 0;
+        let idx = 0;
+        let rotation = 0;
 
-        function updateCard() {
-            document.getElementById('flashcard').classList.remove('flipped');
+        function switchTab(mode) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('panel-' + mode).classList.add('active');
+        }
+
+        function move(dir) {
+            idx = (idx + dir + cards.length) % cards.length;
+            updateAprender();
+        }
+
+        function updateAprender() {
+            const c = document.getElementById('cardAprender');
+            c.classList.remove('flipped');
             setTimeout(() => {
-                document.getElementById('cardFront').innerText = cards[currentIdx].f;
-                document.getElementById('cardBack').innerText = cards[currentIdx].b;
-                document.getElementById('currentNum').innerText = currentIdx + 1;
+                document.getElementById('fAprender').innerText = cards[idx].f;
+                document.getElementById('bAprender').innerText = cards[idx].b;
+                document.getElementById('numAprender').innerText = idx + 1;
             }, 150);
         }
 
-        function ruletaRusa() {
-            let vueltas = 0;
-            let intervalo = setInterval(() => {
-                currentIdx = Math.floor(Math.random() * cards.length);
-                updateCard();
-                vueltas++;
-                if(vueltas > 10) clearInterval(intervalo);
-            }, 100);
+        function spinWheel() {
+            const wheel = document.getElementById('wheel');
+            const cardJ = document.getElementById('cardJuego');
+            cardJ.classList.remove('flipped');
+            
+            const randomExtra = Math.floor(Math.random() * 360) + 1440; // 4 vueltas min
+            rotation += randomExtra;
+            wheel.style.transform = `rotate(${rotation}deg)`;
+
+            setTimeout(() => {
+                const randomIdx = Math.floor(Math.random() * cards.length);
+                document.getElementById('numJuego').innerText = randomIdx + 1;
+                document.getElementById('fJuego').innerText = cards[randomIdx].f;
+                document.getElementById('bJuego').innerText = cards[randomIdx].b;
+            }, 3000);
         }
 
-        function nextCard(e) { e.stopPropagation(); currentIdx = (currentIdx + 1) % cards.length; updateCard(); }
-        function prevCard(e) { e.stopPropagation(); currentIdx = (currentIdx - 1 + cards.length) % cards.length; updateCard(); }
-
-        updateCard();
+        updateAprender();
     </script>
 </body>
 </html>
