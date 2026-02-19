@@ -1,60 +1,116 @@
-<style>
-  :root {
-    --apple-gray: #f5f5f7;
-    --apple-black: #1d1d1f;
-    --apple-blue: #0066cc;
-    --system-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAU - Matriz de Aprendizaje Ubicuo</title>
+    <style>
+        /* ESTÉTICA APPLE: Minimalismo y Claridad */
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #1d1d1f;
+            --text-sec: #86868b;
+            --accent: #0066cc; /* Azul Apple */
+            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+        }
 
-  body {
-    font-family: var(--system-font);
-    background-color: white;
-    color: var(--apple-black);
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    -webkit-font-smoothing: antialiased;
-  }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
 
-  h1 {
-    font-weight: 600;
-    font-size: 2.5rem;
-    letter-spacing: -0.015em;
-    margin-bottom: 0;
-  }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
 
-  .subtitulo {
-    font-weight: 400;
-    font-size: 1.2rem;
-    color: #86868b;
-    margin-top: 5px;
-  }
+        h1 {
+            font-weight: 600;
+            font-size: 40px;
+            letter-spacing: -0.022em;
+            margin: 0;
+        }
 
-  /* El marcador de la ruleta (varilla) */
-  .indicador-ruleta {
-    width: 4px;
-    height: 20px;
-    background-color: var(--apple-blue);
-    border-radius: 2px;
-    margin-bottom: -10px;
-    z-index: 10;
-  }
+        p.subtitulo {
+            font-size: 19px;
+            color: var(--text-sec);
+            font-weight: 400;
+            margin-top: 8px;
+        }
 
-  /* Contenedor de cartas (espacio para las 30) */
-  .contenedor-cartas {
-    max-width: 800px;
-    padding: 20px;
-  }
-</style>
+        /* RULETA Y VARILLA */
+        .ruleta-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
 
-<div class="indicador-ruleta"></div>
-<div id="ruleta"></div>
+        /* La varilla (pointer) estilo Apple */
+        .pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 25px;
+            background-color: var(--accent);
+            border-radius: 2px;
+            z-index: 10;
+        }
+
+        .ruleta {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #d2d2d7;
+            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
+        }
+
+        /* CONTENIDO DE CARTAS */
+        #resultado-carta {
+            margin-top: 40px;
+            max-width: 500px;
+            text-align: center;
+            line-height: 1.5;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>MAR.QR</h1>
+    <p class="subtitulo">Matriz de Aprendizaje Ubicuo (MAU)</p>
+</header>
+
+<div class="ruleta-container">
+    <div class="pointer"></div>
+    <div id="ruleta" class="ruleta">
+        </div>
+</div>
+
+<div id="resultado-carta">
+    <p style="color: var(--text-sec);">Gire la ruleta para iniciar el aprendizaje autogestivo.</p>
+</div>
 
 <script>
-  const cartasMAU = [
-    { id: 1, texto: "Contenido completo de la carta 1..." },
-    { id: 2, texto: "Contenido completo de la carta 2..." },
-    // ... aquí irán las 30 cartas completas
-  ];
+    // 30 Cartas con Contenido Íntegro
+    const cartasMAU = [
+        { id: 1, contenido: "Texto completo y detallado de la carta 1..." },
+        { id: 2, contenido: "Texto completo y detallado de la carta 2..." },
+        // ... completar hasta la 30
+    ];
+
+    // Lógica de giro y selección aquí...
 </script>
+
+</body>
+</html>
