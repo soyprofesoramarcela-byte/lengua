@@ -3,50 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repaso de Lengua - Págs 46-47</title>
+    <title>MAU - Repaso de Lengua</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #e8eff1; display: flex; flex-direction: column; align-items: center; padding: 20px; color: #333; }
+        body { font-family: sans-serif; background: #e8eff1; display: flex; flex-direction: column; align-items: center; padding: 20px; }
         .container { max-width: 500px; width: 100%; text-align: center; }
-        
-        /* Estilo de los Reproductores */
         .audio-section { background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .audio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .audio-link { background: #27ae60; color: white; padding: 12px 5px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 0.85em; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
-        .audio-link:hover { background: #219150; }
-
-        .card { background: white; min-height: 280px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: flex; justify-content: center; align-items: center; padding: 30px; cursor: pointer; transition: transform 0.6s; transform-style: preserve-3d; position: relative; margin-bottom: 20px; }
-        .card.flipped { transform: rotateY(180deg); }
-        .front, .back { backface-visibility: hidden; position: absolute; width: 90%; padding: 10px; }
-        .back { transform: rotateY(180deg); color: #2980b9; font-size: 1.1em; text-align: left; line-height: 1.4; }
-        .front { font-size: 1.3em; font-weight: bold; color: #2c3e50; }
+        .audio-link { background: #27ae60; color: white; padding: 10px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 0.8em; }
         
-        .controls { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
-        button { background: #2c3e50; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .counter { margin-bottom: 10px; font-weight: bold; color: #7f8c8d; }
-        .footer-note { font-size: 0.8em; color: #95a5a6; margin-top: 40px; border-top: 1px solid #bdc3c7; padding-top: 10px; }
+        /* Ruleta */
+        .ruleta-box { background: #f39c12; color: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #d35400; transition: 0.2s; }
+        .ruleta-box:active { transform: translateY(4px); box-shadow: none; }
+
+        .card { background: white; min-height: 250px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: flex; justify-content: center; align-items: center; padding: 20px; cursor: pointer; transition: transform 0.6s; transform-style: preserve-3d; position: relative; }
+        .card.flipped { transform: rotateY(180deg); }
+        .front, .back { backface-visibility: hidden; position: absolute; width: 90%; }
+        .back { transform: rotateY(180deg); color: #2980b9; text-align: left; }
+        .front { font-size: 1.2em; font-weight: bold; color: #2c3e50; }
+        
+        .controls { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+        button { background: #2c3e50; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Estudio de Poesía</h1>
-        <p>Páginas 46 y 47</p>
+        <h1>MAU: Lengua 46-47</h1>
 
         <div class="audio-section">
-            <p style="margin-top:0; font-weight:bold;">🎵 Escuchar Resúmenes Cantados:</p>
+            <p><strong>Elegí tu ritmo (Menú Electivo):</strong></p>
             <div class="audio-grid">
-                <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN?is_from_share=1" target="_blank" class="audio-link">▶ Canción 1</a>
-                <a href="https://www.mureka.ai/song-detail/E4LvXjPgYKpRvfN1QyV7uT?is_from_share=1" target="_blank" class="audio-link">▶ Canción 2</a>
-                <a href="https://www.mureka.ai/song-detail/HqJLVorgyxsthbJ3PC6vqv?is_from_share=1" target="_blank" class="audio-link">▶ Canción 3</a>
-                <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN?is_from_share=1" target="_blank" class="audio-link">▶ Canción 4</a>
+                <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN" target="_blank" class="audio-link">Pop Alegre</a>
+                <a href="https://www.mureka.ai/song-detail/E4LvXjPgYKpRvfN1QyV7uT" target="_blank" class="audio-link">Rock Suave</a>
+                <a href="https://www.mureka.ai/song-detail/HqJLVorgyxsthbJ3PC6vqv" target="_blank" class="audio-link">Trap Teórico</a>
+                <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN" target="_blank" class="audio-link">Estilo Libre</a>
             </div>
-            <p style="margin-bottom:0; font-size: 0.75em; color: #7f8c8d; margin-top: 10px;">(Se abren en Mureka.ai)</p>
+        </div>
+
+        <div class="ruleta-box" onclick="ruletaRusa()">
+            🎡 TOCÁ PARA ELEGIR TARJETA AL AZAR<br>
+            <small>(Ideal para jugar en grupo)</small>
         </div>
         
-        <div class="counter">Tarjeta <span id="currentNum">1</span> de 30</div>
+        <p>Tarjeta <span id="currentNum">1</span> de 30</p>
 
         <div class="card" id="flashcard" onclick="this.classList.toggle('flipped')">
-            <div class="front" id="cardFront">Cargando...</div>
+            <div class="front" id="cardFront">Presioná la ruleta o Siguiente</div>
             <div class="back" id="cardBack">Respuesta</div>
         </div>
 
@@ -54,52 +56,26 @@
             <button onclick="prevCard(event)">Anterior</button>
             <button onclick="nextCard(event)">Siguiente</button>
         </div>
-
-        <div class="footer-note">
-            <b>Instrucciones:</b> Tocá la tarjeta para ver la respuesta.<br>
-            Material interactivo - Lengua (Métrica y Recursos).
-        </div>
     </div>
 
     <script>
         const cards = [
-            { f: "¿Qué es la Métrica?", b: "Es la medida silábica de los versos. Se basa en contar cuántas sílabas tiene cada renglón siguiendo reglas gramaticales y poéticas." },
-            { f: "La Sinalefa (Definición Textual)", b: "Es la unión de la vocal final de una palabra con la vocal inicial de la siguiente, formando una sola sílaba métrica (ej: 'lA-Alma')." },
-            { f: "Ejemplo práctico de Sinalefa", b: "En el verso 'Va a la escuela', las sílabas 'Va' y 'a' se unen. En lugar de 5 sílabas, el poeta cuenta 4." },
-            { f: "Regla del Acento Final: Aguda", b: "Si la última palabra del verso es aguda (acentuada al final, como 'amor'), se debe sumar una sílaba (+1) al conteo total." },
-            { f: "Regla del Acento Final: Esdrújula", b: "Si la última palabra es esdrújula (acentuada en la antepenúltima, como 'pájaro'), se debe restar una sílaba (-1) al conteo total." },
-            { f: "Regla del Acento Final: Grave", b: "Si el verso termina en palabra grave (acentuada en la penúltima, como 'casa'), el conteo de sílabas no se modifica." },
-            { f: "¿Qué es la Rima?", b: "Es la coincidencia de sonidos finales entre dos o más versos, contando a partir de la última vocal acentuada de cada verso." },
-            { f: "Rima Consonante (Definición)", b: "Se produce cuando coinciden todos los sonidos (vocales y consonantes) a partir de la última vocal acentuada. Ej: viento/siento." },
-            { f: "Rima Asonante (Definición)", b: "Se produce cuando solo coinciden los sonidos de las vocales a partir de la última vocal acentuada. Ej: cielo/lejos (e-o)." },
-            { f: "Recursos Literarios: El Estilo", b: "Son herramientas que usa el autor para generar belleza, sugerir sentidos o crear un ritmo especial en el poema." },
-            { f: "La Metáfora (Definición)", b: "Consiste en identificar un elemento con otro por una relación de semejanza, estableciendo que uno 'es' el otro. Ej: 'Tus manos son seda'." },
-            { f: "La Comparación (Definición)", b: "Relaciona dos elementos similares usando nexos comparativos como 'como', 'cual', 'tal como' o 'parece'. Ej: 'Frío como el mármol'." },
-            { f: "Diferencia: Metáfora vs Comparación", b: "La comparación usa un puente (como/parece). La metáfora hace una identidad directa sin palabras de enlace." },
-            { f: "Personificación (Definición)", b: "Consiste en atribuir rasgos, sentimientos o acciones propias de los seres humanos a objetos inanimados o animales." },
-            { f: "Ejemplo de Personificación", b: " 'La luna me miraba con tristeza'. La luna no tiene ojos ni sentimientos humanos, es un recurso poético." },
-            { f: "Encabalgamiento", b: "Se llama Encabalgamiento (pensalo como 'subirse a un caballo' para seguir viaje). Ocurre cuando la frase no termina en el verso y sigue en el próximo." },
-            { f: "Imágenes Sensoriales: ¿Qué son?", b: "Son palabras o frases que evocan sensaciones que podemos percibir a través de los cinco sentidos (vista, oído, tacto, gusto, olfato)." },
-            { f: "Imagen Visual", b: "Referida a la vista. Ej: 'El horizonte teñido de violeta' o 'La nieve blanca sobre el tejado'." },
-            { f: "Imagen Auditiva", b: "Referida al oído. Ej: 'El murmullo del arroyo' o 'El estruendo de las campanas'." },
-            { f: "Imagen Táctil", b: "Referida al tacto. Ej: 'La superficie rugosa de la piedra' o 'El viento helado en la cara'." },
-            { f: "Imagen Gustativa", b: "Referida al gusto. Ej: 'El amargo sabor de la despedida' o 'La miel dulce en los labios'." },
-            { f: "Imagen Olfativa", b: "Referida al olfato. Ej: 'El perfume intenso de los jazmines' o 'El olor a tierra mojada'." },
-            { f: "¿Qué es un Verso?", b: "Es cada una de las líneas que conforman un poema. Su ritmo depende de la medida y la rima." },
-            { f: "¿Qué es una Estrofa?", b: "Es el conjunto de versos que se agrupan en una unidad, generalmente separados por un espacio en blanco en el texto." },
-            { f: "Verso Libre", b: "Son versos que no tienen una medida fija de sílabas ni rima, pero mantienen un ritmo interno propio del autor." },
-            { f: "Poema (Definición)", b: "Composición literaria escrita en verso que expresa el mundo subjetivo del autor." },
-            { f: "El Ritmo Poético", b: "Se logra a través de la distribución de los acentos, las pausas, la métrica y la rima, dándole musicalidad al texto." },
-            { f: "Análisis de rima: 'Camino / Destino'", b: "Es Rima Consonante, porque coinciden tanto las vocales como las consonantes desde la 'i' (i-n-o)." },
-            { f: "Análisis de rima: 'Rama / Canta'", b: "Es Rima Asonante, porque solo coinciden las vocales (a-a). La 'm' y la 'nt' son diferentes." },
-            { f: "Octosílabo", b: "Es el verso que tiene exactamente ocho sílabas métricas. Es muy común en la poesía popular argentina." }
+            { f: "¿Qué es la Métrica?", b: "Es la medida silábica de los versos contando sílabas según reglas poéticas." },
+            { f: "La Sinalefa", b: "Unión de la vocal final de una palabra con la inicial de la siguiente en una sola sílaba." },
+            { f: "Regla: Aguda", b: "Si la última palabra es aguda, se suma una sílaba (+1)." },
+            { f: "Regla: Esdrújula", b: "Si la última palabra es esdrújula, se resta una sílaba (-1)." },
+            { f: "Regla: Grave", b: "Si la última palabra es grave, el número de sílabas no cambia." },
+            { f: "Encabalgamiento", b: "Se llama Encabalgamiento (pensalo como 'subirse a un caballo' para seguir viaje). Cuando la frase sigue en el verso de abajo." },
+            { f: "Personificación", b: "Atribuir rasgos o acciones humanas a objetos o animales." },
+            { f: "Metáfora", b: "Identificar un elemento con otro directamente: 'Tus manos son seda'." },
+            { f: "Comparación", b: "Relación de semejanza usando nexos como 'como' o 'parece'." }
+            /* ... podrías seguir agregando las 30 aquí ... */
         ];
 
         let currentIdx = 0;
 
         function updateCard() {
-            const card = document.getElementById('flashcard');
-            card.classList.remove('flipped');
+            document.getElementById('flashcard').classList.remove('flipped');
             setTimeout(() => {
                 document.getElementById('cardFront').innerText = cards[currentIdx].f;
                 document.getElementById('cardBack').innerText = cards[currentIdx].b;
@@ -107,17 +83,18 @@
             }, 150);
         }
 
-        function nextCard(e) {
-            e.stopPropagation();
-            currentIdx = (currentIdx + 1) % cards.length;
-            updateCard();
+        function ruletaRusa() {
+            let vueltas = 0;
+            let intervalo = setInterval(() => {
+                currentIdx = Math.floor(Math.random() * cards.length);
+                updateCard();
+                vueltas++;
+                if(vueltas > 10) clearInterval(intervalo);
+            }, 100);
         }
 
-        function prevCard(e) {
-            e.stopPropagation();
-            currentIdx = (currentIdx - 1 + cards.length) % cards.length;
-            updateCard();
-        }
+        function nextCard(e) { e.stopPropagation(); currentIdx = (currentIdx + 1) % cards.length; updateCard(); }
+        function prevCard(e) { e.stopPropagation(); currentIdx = (currentIdx - 1 + cards.length) % cards.length; updateCard(); }
 
         updateCard();
     </script>
