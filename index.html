@@ -1,145 +1,87 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAU - Matriz de Aprendizaje Ubicuo</title>
-    <style>
-        :root {
-            --apple-blue: #0071e3;
-            --apple-gray: #f5f5f7;
-            --text-main: #1d1d1f;
-            --text-sec: #86868b;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: white;
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0;
-            padding: 20px;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        header { text-align: center; margin-top: 40px; margin-bottom: 20px; }
-        h1 { font-size: 40px; font-weight: 600; letter-spacing: -0.5px; margin: 0; }
-        .sub { color: var(--text-sec); font-size: 19px; margin-top: 5px; }
-
-        /* Contenedor Ruleta */
-        .ruleta-box {
-            position: relative;
-            width: 320px;
-            height: 320px;
-            margin: 30px auto;
-        }
-
-        /* La Varilla (Pointer) */
-        .varilla {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 30px;
-            background: var(--apple-blue);
-            border-radius: 2px;
-            z-index: 10;
-        }
-
-        canvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        button {
-            background-color: var(--apple-blue);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 17px;
-            border-radius: 980px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        button:hover { opacity: 0.9; transform: scale(1.02); }
-
-        #carta-display {
-            max-width: 500px;
-            margin-top: 40px;
-            padding: 25px;
-            border-radius: 18px;
-            background: var(--apple-gray);
-            text-align: center;
-            min-height: 100px;
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <h1>MAU</h1>
-    <p class="sub">Matriz de Aprendizaje Ubicuo</p>
-</header>
-
-<div class="ruleta-box">
-    <div class="varilla"></div>
-    <canvas id="canvas" width="320" height="320"></canvas>
-</div>
-
-<button onclick="girar()">Girar Ruleta</button>
-
-<div id="carta-display">
-    <p style="color:var(--text-sec)">La ruleta seleccionará una de las 30 cartas pedagógicas.</p>
-</div>
-
 <script>
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
-    const cartas = Array.from({length: 30}, (_, i) => `Contenido íntegro de la Carta Pedagógica ${i + 1}: Aquí va el desarrollo de los materiales de estudio para la MAU.`);
+
+    // AQUÍ ESTÁN LAS 30 CARTAS CON SU CONTENIDO ÍNTEGRO
+    // Reemplazá los textos entre comillas con tu material original del Ministerio
+    const cartas = [
+        "Contenido completo de la Carta 1: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 2: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 3: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 4: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 5: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 6: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 7: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 8: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 9: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 10: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 11: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 12: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 13: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 14: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 15: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 16: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 17: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 18: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 19: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 20: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 21: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 22: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 23: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 24: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 25: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 26: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 27: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 28: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 29: [Pegar aquí el texto original]",
+        "Contenido completo de la Carta 30: [Pegar aquí el texto original]"
+    ];
     
     let anguloActual = 0;
     const numSectores = 30;
     const arco = Math.PI * 2 / numSectores;
 
     function dibujarRuleta() {
+        ctx.clearRect(0,0,320,320);
         for (let i = 0; i < numSectores; i++) {
             const ang = i * arco;
-            ctx.fillStyle = i % 2 === 0 ? "#ffffff" : "#f2f2f2";
+            ctx.fillStyle = i % 2 === 0 ? "#ffffff" : "#f9f9f9"; // Blanco Apple / Gris muy claro
             ctx.beginPath();
             ctx.moveTo(160, 160);
             ctx.arc(160, 160, 160, ang, ang + arco);
+            ctx.strokeStyle = "#e5e5e7"; // Separadores sutiles
             ctx.stroke();
             ctx.fill();
+            
+            // Números de los sectores
             ctx.save();
-            ctx.translate(160 + Math.cos(ang + arco / 2) * 130, 160 + Math.sin(ang + arco / 2) * 130);
+            ctx.translate(160 + Math.cos(ang + arco / 2) * 135, 160 + Math.sin(ang + arco / 2) * 135);
             ctx.rotate(ang + arco / 2 + Math.PI / 2);
             ctx.fillStyle = "#86868b";
+            ctx.font = "bold 10px sans-serif";
             ctx.fillText(i + 1, -5, 0);
             ctx.restore();
         }
     }
 
     function girar() {
-        const giroExtra = Math.floor(Math.random() * 360) + 1440; // 4 vueltas min
+        const giroExtra = Math.floor(Math.random() * 360) + 1440; 
         anguloActual += giroExtra;
         canvas.style.transition = "transform 4s cubic-bezier(0.15, 0, 0.15, 1)";
         canvas.style.transform = `rotate(${anguloActual}deg)`;
 
         setTimeout(() => {
-            const indice = Math.floor(numSectores - (anguloActual % 360) / (360 / numSectores)) % numSectores;
-            document.getElementById("carta-display").innerHTML = `<h3>Carta ${indice + 1}</h3><p>${cartas[indice]}</p>`;
+            // Cálculo preciso para que coincida con la varilla superior
+            const gradosReales = anguloActual % 360;
+            const indice = Math.floor(numSectores - (gradosReales / (360 / numSectores))) % numSectores;
+            
+            // Mostrar la carta íntegra con diseño limpio
+            document.getElementById("carta-display").innerHTML = `
+                <h3 style="color:var(--apple-blue); margin-top:0;">CARTA ${indice + 1}</h3>
+                <div style="text-align:left; font-size:16px; line-height:1.6;">${cartas[indice]}</div>
+            `;
         }, 4000);
     }
 
     dibujarRuleta();
 </script>
-
-</body>
-</html>
