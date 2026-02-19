@@ -8,25 +8,23 @@
         :root { --bg: #1a1a2e; --accent: #e94560; --btn-sec: #6a1b9a; }
         body { font-family: sans-serif; background: var(--bg); color: white; display: flex; flex-direction: column; align-items: center; padding: 5px; margin: 0; overflow-x: hidden; }
         
-        .header { text-align: center; margin-bottom: 5px; }
-        .header h1 { font-size: 0.9rem; color: #4e9af1; margin: 2px; }
+        .header h1 { font-size: 0.9rem; color: #4e9af1; margin: 5px; text-align: center; }
 
         /* Pestañas */
         .tabs { display: flex; gap: 8px; margin-bottom: 8px; width: 95%; max-width: 320px; }
         .tab-btn { flex: 1; padding: 8px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; background: #333; color: white; font-size: 0.75rem; }
         .tab-btn.active { background: var(--btn-sec); }
 
-        /* Ruleta chica para que entre todo */
+        /* Ruleta Chica */
         .wheel-box { position: relative; width: 180px; height: 180px; margin-bottom: 5px; }
         canvas { width: 100%; height: 100%; transition: transform 3s cubic-bezier(0.1, 0, 0.2, 1); border-radius: 50%; }
         .pointer { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 15px solid var(--accent); z-index: 10; }
 
         .btn-main { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 20px; width: 200px; font-weight: bold; cursor: pointer; font-size: 0.85rem; margin-bottom: 5px; }
 
-        /* Contador */
         #contador { font-size: 0.7rem; margin-bottom: 5px; color: #aaa; }
 
-        /* Flashcard */
+        /* Flashcard que SI funciona */
         .card-container { perspective: 1000px; width: 90%; max-width: 300px; height: 130px; margin-bottom: 10px; }
         .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s; cursor: pointer; }
         .card.flipped { transform: rotateY(180deg); }
@@ -58,7 +56,7 @@
     <div id="contador">Tarjetas vistas: 0 / 30</div>
 
     <div class="card-container">
-        <div class="card" id="flashcard" onclick="voltear()">
+        <div class="card" id="flashcard" onclick="this.classList.toggle('flipped')">
             <div class="front" id="cardFront">¡Toca la ruleta para empezar!</div>
             <div class="back" id="cardBack">Aquí verás la explicación técnica.</div>
         </div>
@@ -84,15 +82,15 @@
             { f: "Rima Consonante", b: "Coinciden todos los sonidos desde el último acento." },
             { f: "Rima Asonante", b: "Solo coinciden las vocales desde el último acento." },
             { f: "Octosílabo", b: "Verso que tiene ocho sílabas métricas." },
-            { f: "Imagen Visual", b: "Recurso que evoca algo percibido por la vista." },
-            { f: "Imagen Auditiva", b: "Recurso que evoca sonidos o ruidos." },
-            { f: "Métrica", b: "Medida silábica de los versos según reglas poéticas." },
+            { f: "Imagen Visual", b: "Recurso sensorial que evoca algo percibido por la vista." },
+            { f: "Imagen Auditiva", b: "Recurso sensorial que evoca sonidos o ruidos." },
             { f: "Verso Libre", b: "Sin medida fija ni rima, con ritmo interno." },
+            { f: "Métrica", b: "Medida silábica de los versos según reglas poéticas." },
             { f: "Rima (Def)", b: "Coincidencia de sonidos a partir de la última vocal acentuada." },
             { f: "Imagen Gustativa", b: "Recurso sensorial que evoca sabores (ej: dulce)." },
             { f: "Imagen Olfativa", b: "Recurso sensorial que evoca olores o fragancias." },
             { f: "Imagen Táctil", b: "Sensación percibida por el tacto (ej: frío, suave)." },
-            { f: "Recursos Literarios", b: "Herramientas del autor para dar belleza y ritmo." },
+            { f: "Recursos Literarios", b: "Herramientas que usa el autor para dar belleza y ritmo." },
             { f: "Estrofa", b: "Conjunto de versos agrupados en una unidad del poema." },
             { f: "Poema", b: "Composición literaria en verso que expresa subjetividad." },
             { f: "Ritmo Poético", b: "Musicalidad lograda por acentos, pausas y medida." },
@@ -144,18 +142,12 @@
                     document.getElementById('cardBack').innerText = res.b;
                 } else {
                     document.getElementById('cardFront').innerText = "¿Qué es " + res.f + "?";
-                    document.getElementById('cardBack').innerText = "Definición: " + res.b;
+                    document.getElementById('cardBack').innerText = "Respuesta: " + res.b;
                 }
             }, 3000);
         }
 
-        function voltear() {
-            document.getElementById('flashcard').classList.toggle('flipped');
-        }
-
-        function playM(url) {
-            window.open(url, '_blank');
-        }
+        function playM(url) { window.open(url, '_blank'); }
 
         draw();
     </script>
