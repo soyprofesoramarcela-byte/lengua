@@ -22,10 +22,26 @@
 
         .header { text-align: center; margin-bottom: 10px; width: 100%; max-width: 450px; }
         .titulo-mau { font-size: 1.1rem; font-weight: 800; color: var(--neon-blue); margin: 0; }
-        .subtitulo-mau { font-size: 0.75rem; opacity: 0.9; margin: 3px 0; color: #fff; }
+        .subtitulo-mau { font-size: 0.75rem; opacity: 0.9; margin: 3px 0; }
         .info-linea { border-top: 1px solid #444; border-bottom: 1px solid #444; padding: 8px; margin-top: 8px; font-weight: bold; font-size: 0.85rem; color: var(--neon-pink); }
 
-        .tabs { display: flex; gap: 8px; width: 100%; max-width: 450px; margin: 10px 0; }
+        /* Cuadro Resumen Estilo Modal */
+        #modalResumen {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); z-index: 100; padding: 15px; box-sizing: border-box; overflow-y: auto;
+        }
+        .tabla-resumen { width: 100%; max-width: 350px; margin: 0 auto; border-collapse: collapse; background: white; color: #333; font-size: 0.65rem; border: 2px solid #444; }
+        .tabla-resumen th, .tabla-resumen td { border: 1px solid #ccc; padding: 6px; }
+        .header-tema { background: var(--neon-purple); color: white; font-weight: bold; text-align: center; font-size: 0.8rem; }
+        .row-grey { background: #f2f2f2; font-weight: bold; }
+
+        .btn-resumen {
+            background: transparent; color: var(--neon-purple); border: 1px solid var(--neon-purple);
+            padding: 10px; border-radius: 5px; font-size: 0.75em; font-weight: bold;
+            cursor: pointer; margin-bottom: 15px; width: 100%; max-width: 450px;
+        }
+
+        .tabs { display: flex; gap: 8px; width: 100%; max-width: 450px; margin: 5px 0; }
         .tab { flex: 1; padding: 10px; border: 2px solid var(--neon-purple); border-radius: 12px; background: transparent; color: white; font-weight: bold; cursor: pointer; font-size: 0.8em; }
         .tab.active { background: var(--neon-purple); box-shadow: 0 0 10px var(--neon-purple); }
 
@@ -56,15 +72,33 @@
 </head>
 <body>
 
+    <div id="modalResumen">
+        <button class="btn-resumen" onclick="toggleResumen()" style="background: var(--neon-pink); color: white; border:none; margin-bottom: 10px;">CERRAR PLANILLA</button>
+        <table class="tabla-resumen">
+            <tr class="header-tema"><td colspan="3">CUADRO RESUMEN DE LA TEMÁTICA</td></tr>
+            <tr class="row-grey"><td>Tema</td><td>Concepto</td><td>Detalle</td></tr>
+            <tr><td rowspan="3">Musicalidad</td><td>Métrica</td><td>Conteo de sílabas.</td></tr>
+            <tr><td>Sinalefa</td><td>Unión vocal final + inicial.</td></tr>
+            <tr><td>Ley Acento</td><td>Aguda +1, Grave =, Esdrúj. -1.</td></tr>
+            <tr><td rowspan="2">Rima</td><td>Consonante</td><td>Vocales y consonantes coinciden.</td></tr>
+            <tr><td>Asonante</td><td>Solo vocales coinciden.</td></tr>
+            <tr><td rowspan="3">Recursos</td><td>Metáfora</td><td>Identidad A es B (sin nexo).</td></tr>
+            <tr><td>Comparación</td><td>Usa nexo ("como").</td></tr>
+            <tr><td>Aliteración</td><td>Repetición de sonidos.</td></tr>
+        </table>
+    </div>
+
     <div class="header">
         <div class="titulo-mau">Matriz de Aprendizaje Ubicuo (MAU)</div>
         <div class="subtitulo-mau">Innovación en Dispositivos Digitales Autogestivos</div>
         <div class="info-linea">Materia: Lengua - Recursos Poéticos y Canciones</div>
     </div>
 
+    <button class="btn-resumen" onclick="toggleResumen()">📊 CUADRO RESUMEN DE LA TEMÁTICA</button>
+
     <div class="tabs">
         <button class="tab active" onclick="switchTab('aprender', this)">📖 APRENDE</button>
-        <button class="tab" onclick="switchTab('jugar', this)">🔥 DESAFÍO</button>
+        <button class="tab" onclick="switchTab('jugar', this)">🔥 TE DESAFÍO</button>
     </div>
 
     <div id="panel-aprender" class="panel active">
@@ -104,38 +138,43 @@
 
     <script>
         const cards = [
-            { f: "Metáfora", b: "Establece una identidad total entre dos elementos (A es B). Ej: 'Las perlas de tu boca'. Identifica los dientes como perlas sin usar nexos." },
-            { f: "Aliteración", b: "Repetición de un mismo sonido (generalmente consonante). Ej: 'El sonido sonoro de la selva'. Imita sonidos de la realidad (viento o siseo)." },
+            { f: "Metáfora", b: "Identidad total entre dos elementos (A es B). Ej: 'Las perlas de tu boca'. No usa nexos comparativos." },
+            { f: "Aliteración", b: "Repetición de sonidos (consonantes) para imitar sonidos reales. Ej: 'El sonido sonoro de la selva'." },
             { f: "Sinalefa", b: "Unión de la vocal final de una palabra con la inicial de la siguiente en una sola sílaba métrica." },
-            { f: "Rima Consonante", b: "Coinciden vocales y consonantes desde la última vocal tónica. Ej: 'Canci-ÓN' / 'Coraz-ÓN'." },
-            { f: "Rima Asonante", b: "Solo coinciden las vocales desde la última vocal tónica. Ej: 'C-A-s-A' / 'p-A-m-A'." },
-            { f: "Acento Agudo (+1)", b: "Si la última palabra del verso es aguda, se suma una sílaba al conteo métrico." },
-            { f: "Acento Esdrújulo (-1)", b: "Si la última palabra del verso es esdrújula, se resta una sílaba métrica." },
+            { f: "Rima Consonante", b: "Coinciden vocales y consonantes desde la última vocal tónica." },
+            { f: "Rima Asonante", b: "Solo coinciden las vocales desde la última vocal tónica." },
+            { f: "Acento Agudo (+1)", b: "Si la última palabra del verso es aguda, se suma una sílaba métrica." },
+            { f: "Acento Esdrújulo (-1)", b: "Si la última palabra del verso es esdrújula, se resta una sílaba." },
             { f: "Acento Grave (0)", b: "Si la última palabra es grave, el número de sílabas se mantiene igual." },
-            { f: "Comparación", b: "Relación de semejanza entre dos elementos usando nexos como 'como' o 'parece'." },
-            { f: "Personificación", b: "Atribuir características o acciones humanas a objetos o animales." },
-            { f: "Anáfora", b: "Repetición de palabras al inicio del verso para dar énfasis o ritmo." },
-            { f: "Encabalgamiento", b: "Cuando la idea de un verso continúa en el siguiente sin pausa gramatical." },
-            { f: "Octosílabo", b: "Verso de ocho sílabas métricas. Muy común en canciones populares." },
-            { f: "Métrica", b: "Es la medida de las sílabas de un verso siguiendo reglas y licencias poéticas." },
-            { f: "Imagen Visual", b: "Recurso sensorial que representa lo percibido por la vista (colores, formas)." },
-            { f: "Imagen Auditiva", b: "Palabras que evocan sonidos, ruidos o sensaciones sonoras." },
-            { f: "Estrofa", b: "Conjunto de versos agrupados en una unidad dentro del poema." },
-            { f: "Verso", b: "Es cada una de las líneas que conforman el cuerpo de un poema o canción." },
-            { f: "Ritmo", b: "Efecto logrado por la distribución de acentos, pausas y medida silábica." },
-            { f: "Imagen Táctil", b: "Recurso sensorial que remite a sensaciones de la piel (frío, rugoso)." },
-            { f: "Imagen Gustativa", b: "Evoca sabores y sensaciones del gusto (dulce, amargo, ácido)." },
-            { f: "Imagen Olfativa", b: "Términos que evocan aromas, perfumes o fragancias." },
-            { f: "Estribillo", b: "Grupo de versos que se repite a intervalos fijos en una composición." },
-            { f: "Sinalefa con 'H'", b: "La 'h' inicial no impide la sinalefa, ya que no tiene sonido." },
-            { f: "Verso Libre", b: "Verso que no sigue una rima ni una métrica fija establecida." },
-            { f: "Recurso Poético", b: "Herramienta expresiva para embellecer o dar ritmo al texto." },
-            { f: "Pausa Versal", b: "Pequeño silencio o interrupción al finalizar cada verso." },
-            { f: "Musicalidad", b: "Efecto estético que resulta de combinar rima, métrica y acentos." }
+            { f: "Comparación", b: "Semejanza entre dos elementos usando nexos como 'como' o 'parece'." },
+            { f: "Personificación", b: "Atribuir rasgos o acciones humanas a objetos o animales." },
+            { f: "Anáfora", b: "Repetición de palabras al inicio del verso." },
+            { f: "Encabalgamiento", b: "Cuando la idea de un verso continúa en el siguiente sin pausa." },
+            { f: "Octosílabo", b: "Verso de ocho sílabas. Muy común en la música popular." },
+            { f: "Métrica", b: "Medida silábica de un verso siguiendo reglas poéticas." },
+            { f: "Imagen Visual", b: "Evoca sensaciones percibidas por la vista (colores, formas)." },
+            { f: "Imagen Auditiva", b: "Evoca sonidos o sensaciones sonoras." },
+            { f: "Estrofa", b: "Conjunto de versos agrupados en una unidad." },
+            { f: "Verso", b: "Cada una de las líneas que conforman el poema o canción." },
+            { f: "Ritmo", b: "Efecto logrado por acentos, pausas y medida silábica." },
+            { f: "Imagen Táctil", b: "Remite a sensaciones de la piel (frío, rugoso, suave)." },
+            { f: "Imagen Gustativa", b: "Evoca sabores y sensaciones del gusto (dulce, amargo)." },
+            { f: "Imagen Olfativa", b: "Términos que evocan aromas o fragancias." },
+            { f: "Estribillo", b: "Verso o conjunto de versos que se repiten en una canción." },
+            { f: "Sinalefa con 'H'", b: "La 'h' inicial no impide la sinalefa por ser muda." },
+            { f: "Verso Libre", b: "Verso sin medida fija ni rima determinada." },
+            { f: "Recurso Poético", b: "Herramienta expresiva para embellecer el texto." },
+            { f: "Pausa Versal", b: "Breve interrupción al finalizar cada verso." },
+            { f: "Musicalidad", b: "Efecto estético de combinar rima, métrica y acentos." }
         ];
 
         let idx = 0;
         let rotation = 0;
+
+        function toggleResumen() {
+            const m = document.getElementById('modalResumen');
+            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+        }
 
         function switchTab(m, b) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
