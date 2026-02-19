@@ -20,7 +20,6 @@
             min-height: 100vh; padding: 20px;
         }
 
-        /* Títulos solicitados */
         .header { text-align: center; margin-bottom: 20px; width: 100%; max-width: 450px; }
         .titulo-mau { font-size: 1.1em; font-weight: 800; color: var(--neon-blue); margin: 0; }
         .subtitulo-mau { font-size: 0.8em; opacity: 0.9; margin: 5px 0; }
@@ -36,15 +35,13 @@
         .panel { display: none; width: 100%; max-width: 450px; flex-direction: column; align-items: center; }
         .panel.active { display: flex; }
 
-        /* Canciones Nivel Secundario */
         .music-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; width: 100%; margin-bottom: 15px; }
         .music-btn { 
             background: rgba(255, 255, 255, 0.05); border: 1px solid var(--neon-blue); 
             color: var(--neon-blue); padding: 8px 0; border-radius: 6px; font-size: 0.55em; 
-            font-weight: bold; text-align: center; cursor: pointer;
+            font-weight: bold; text-align: center; cursor: pointer; text-decoration: none;
         }
 
-        /* Ruleta Hermosa anterior */
         .wheel-container { position: relative; width: 250px; height: 250px; margin: 15px 0; }
         .pointer { 
             position: absolute; top: -10px; left: 50%; transform: translateX(-50%); 
@@ -53,38 +50,22 @@
         }
         .wheel { 
             width: 100%; height: 100%; border-radius: 50%; border: 6px solid white;
-            background: conic-gradient(
-                #FF006E 0deg 45deg, #FFBE0B 45deg 90deg, 
-                #FB5607 90deg 135deg, #8338EC 135deg 180deg, 
-                #3A86FF 180deg 225deg, #00F5D4 225deg 270deg,
-                #FF006E 270deg 315deg, #FFBE0B 315deg 360deg
-            );
+            background: conic-gradient(#FF006E 0deg 45deg, #FFBE0B 45deg 90deg, #FB5607 90deg 135deg, #8338EC 135deg 180deg, #3A86FF 180deg 225deg, #00F5D4 225deg 270deg, #FF006E 270deg 315deg, #FFBE0B 315deg 360deg);
             transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
         }
 
-        .card { 
-            background: var(--card-dark); width: 100%; min-height: 200px; border-radius: 20px; 
-            perspective: 1000px; cursor: pointer; border: 1px solid #333; margin: 10px 0;
-        }
+        .card { background: var(--card-dark); width: 100%; min-height: 200px; border-radius: 20px; perspective: 1000px; cursor: pointer; border: 1px solid #333; margin: 10px 0; }
         .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; min-height: 200px; }
         .card.flipped .card-inner { transform: rotateY(180deg); }
-        .front, .back { 
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            padding: 25px; box-sizing: border-box; text-align: center; border-radius: 20px;
-        }
-        .back { transform: rotateY(180deg); color: var(--neon-blue); font-weight: bold; background: #16213e; line-height: 1.4; font-size: 0.95em; }
+        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; box-sizing: border-box; text-align: center; border-radius: 20px; }
+        .back { transform: rotateY(180deg); color: var(--neon-blue); font-weight: bold; background: #16213e; line-height: 1.4; }
         
-        .instruccion { font-size: 0.65em; color: var(--neon-pink); margin-top: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .instruccion { font-size: 0.65em; color: var(--neon-pink); margin-top: 15px; font-weight: bold; text-transform: uppercase; }
 
-        .btn-spin { 
-            background: var(--neon-pink); color: white; border: none; padding: 15px 40px; 
-            border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px var(--neon-pink); margin: 15px 0;
-        }
-
+        .btn-spin { background: var(--neon-pink); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px var(--neon-pink); margin: 15px 0; }
         .controls { display: flex; gap: 10px; width: 100%; }
         .nav-btn { flex: 1; background: #222; color: white; border: 1px solid #444; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: bold; }
-        .contador { font-size: 0.8em; margin-bottom: 10px; opacity: 0.5; letter-spacing: 1px; }
+        .contador { font-size: 0.8em; margin-bottom: 10px; opacity: 0.5; }
     </style>
 </head>
 <body>
@@ -102,10 +83,10 @@
 
     <div id="panel-aprender" class="panel active">
         <div class="music-grid">
-            <button class="music-btn" onclick="window.open('https://tupagina.com/pop.html','_blank')">♫ POP</button>
-            <button class="music-btn" onclick="window.open('https://tupagina.com/rock.html','_blank')">♫ ROCK</button>
-            <button class="music-btn" onclick="window.open('https://tupagina.com/beat.html','_blank')">♫ BEAT</button>
-            <button class="music-btn" onclick="window.open('https://tupagina.com/trap.html','_blank')">♫ TRAP</button>
+            <a href="https://m.youtube.com/watch?v=kYJv97_4K1A" target="_blank" class="music-btn">♫ POP</a>
+            <a href="https://m.youtube.com/watch?v=9S75p-8zU_8" target="_blank" class="music-btn">♫ ROCK</a>
+            <a href="https://m.youtube.com/watch?v=fS6M-k2n9mQ" target="_blank" class="music-btn">♫ BEAT</a>
+            <a href="https://m.youtube.com/watch?v=vV_X186E9OQ" target="_blank" class="music-btn">♫ TRAP</a>
         </div>
 
         <div class="contador"><span id="numAprender">1</span> / 30</div>
@@ -113,10 +94,10 @@
         <div class="card" onclick="this.classList.toggle('flipped')">
             <div class="card-inner">
                 <div class="front">
-                    <div id="fAprender" style="font-size: 1.1em; font-weight: bold;">Verso</div>
-                    <div class="instruccion">Toque suavemente aquí</div>
+                    <div id="fAprender" style="font-size: 1.1em; font-weight: bold;">Cargando...</div>
+                    <div class="instruccion">PULSE SUAVEMENTE</div>
                 </div>
-                <div class="back" id="bAprender">Es cada una de las líneas que conforman el poema o la canción.</div>
+                <div class="back" id="bAprender">...</div>
             </div>
         </div>
 
@@ -134,9 +115,7 @@
         <button class="btn-spin" onclick="spinWheel()">GIRA LA RULETA</button>
         <div class="card" id="cardJuego" onclick="this.classList.toggle('flipped')">
             <div class="card-inner">
-                <div class="front">
-                    <div id="fJuego">¡Probá tu memoria!</div>
-                </div>
+                <div class="front" id="fJuego">¡Probá tu memoria!</div>
                 <div class="back" id="bJuego">...</div>
             </div>
         </div>
