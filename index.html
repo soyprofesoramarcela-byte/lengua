@@ -17,7 +17,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color: #F5F5F7; margin: 0; display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; padding: 20px;
+            min-height: 100vh; padding: 20px; overflow-x: hidden;
         }
 
         .header { text-align: center; margin-bottom: 20px; width: 100%; max-width: 450px; }
@@ -25,56 +25,90 @@
         .subtitulo-mau { font-size: 0.8em; opacity: 0.9; margin: 5px 0; }
         .info-linea { border-top: 1px solid #444; border-bottom: 1px solid #444; padding: 10px; margin-top: 10px; font-weight: bold; font-size: 0.9em; }
 
-        .tabs { display: flex; gap: 8px; width: 100%; max-width: 450px; margin: 15px 0; }
+        /* Botón Cuadro Resumen */
+        .btn-resumen {
+            background: #111; color: var(--neon-blue); border: 1px solid var(--neon-blue);
+            padding: 8px 15px; border-radius: 5px; font-size: 0.75em; font-weight: bold;
+            cursor: pointer; margin-bottom: 15px; transition: 0.3s;
+        }
+
+        .tabs { display: flex; gap: 8px; width: 100%; max-width: 450px; margin: 10px 0; }
         .tab { 
             flex: 1; padding: 12px; border: 2px solid var(--neon-purple); border-radius: 12px; 
-            background: transparent; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85em;
+            background: transparent; color: white; font-weight: bold; cursor: pointer; font-size: 0.85em;
         }
         .tab.active { background: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
 
         .panel { display: none; width: 100%; max-width: 450px; flex-direction: column; align-items: center; }
         .panel.active { display: flex; }
 
-        .music-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; width: 100%; margin-bottom: 15px; }
+        .music-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; margin-bottom: 15px; }
         .music-btn { 
             background: rgba(255, 255, 255, 0.05); border: 1px solid var(--neon-blue); 
-            color: var(--neon-blue); padding: 8px 0; border-radius: 6px; font-size: 0.55em; 
+            color: var(--neon-blue); padding: 12px; border-radius: 8px; font-size: 0.7em; 
             font-weight: bold; text-align: center; cursor: pointer; text-decoration: none;
         }
 
-        .wheel-container { position: relative; width: 250px; height: 250px; margin: 15px 0; }
-        .pointer { 
-            position: absolute; top: -10px; left: 50%; transform: translateX(-50%); 
-            width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent;
-            border-top: 28px solid white; z-index: 10; filter: drop-shadow(0 0 5px white);
+        /* Modal Cuadro Resumen (Hoja de Cálculo) */
+        #modalResumen {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 100; padding: 20px; box-sizing: border-box;
+            overflow-y: auto;
         }
-        .wheel { 
-            width: 100%; height: 100%; border-radius: 50%; border: 6px solid white;
-            background: conic-gradient(#FF006E 0deg 45deg, #FFBE0B 45deg 90deg, #FB5607 90deg 135deg, #8338EC 135deg 180deg, #3A86FF 180deg 225deg, #00F5D4 225deg 270deg, #FF006E 270deg 315deg, #FFBE0B 315deg 360deg);
-            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
+        .tabla-resumen {
+            width: 100%; border-collapse: collapse; background: #fff; color: #333;
+            font-size: 0.75em; border-radius: 5px; overflow: hidden;
         }
+        .tabla-resumen th { background: #f2f2f2; border: 1px solid #ccc; padding: 10px; text-align: left; }
+        .tabla-resumen td { border: 1px solid #eee; padding: 10px; }
+        .header-tema { background: var(--neon-blue) !important; color: white; }
 
+        /* Tarjetas */
         .card { background: var(--card-dark); width: 100%; min-height: 200px; border-radius: 20px; perspective: 1000px; cursor: pointer; border: 1px solid #333; margin: 10px 0; }
         .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; min-height: 200px; }
         .card.flipped .card-inner { transform: rotateY(180deg); }
         .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; box-sizing: border-box; text-align: center; border-radius: 20px; }
-        .back { transform: rotateY(180deg); color: var(--neon-blue); font-weight: bold; background: #16213e; line-height: 1.4; }
-        
+        .back { transform: rotateY(180deg); color: var(--neon-blue); font-weight: bold; background: #16213e; }
         .instruccion { font-size: 0.65em; color: var(--neon-pink); margin-top: 15px; font-weight: bold; text-transform: uppercase; }
 
+        /* Ruleta */
+        .wheel-container { position: relative; width: 250px; height: 250px; margin: 15px 0; }
+        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 28px solid white; z-index: 10; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 6px solid white; background: conic-gradient(#FF006E 0deg 45deg, #FFBE0B 45deg 90deg, #FB5607 90deg 135deg, #8338EC 135deg 180deg, #3A86FF 180deg 225deg, #00F5D4 225deg 270deg, #FF006E 270deg 315deg, #FFBE0B 315deg 360deg); transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); }
+
         .btn-spin { background: var(--neon-pink); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px var(--neon-pink); margin: 15px 0; }
-        .controls { display: flex; gap: 10px; width: 100%; }
         .nav-btn { flex: 1; background: #222; color: white; border: 1px solid #444; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: bold; }
         .contador { font-size: 0.8em; margin-bottom: 10px; opacity: 0.5; }
     </style>
 </head>
 <body>
 
+    <div id="modalResumen">
+        <button class="btn-resumen" onclick="toggleResumen()" style="background: var(--neon-pink); color: white; border:none; margin-bottom: 10px;">CERRAR CUADRO</button>
+        <table class="tabla-resumen">
+            <tr class="header-tema"><th colspan="3">CUADRO RESUMEN DE LA TEMÁTICA</th></tr>
+            <tr style="background:#eee; font-weight:bold;"><td>Tema Principal</td><td>Concepto Clave</td><td>Detalle Importante</td></tr>
+            <tr><td rowspan="4"><b>Musicalidad 🎼</b></td><td>Ritmo</td><td>Repetición de sonidos en intervalos.</td></tr>
+            <tr><td>Métrica 📏</td><td>Conteo de sílabas en cada verso.</td></tr>
+            <tr><td>Sinalefa 🔗</td><td>Unión de vocal final + vocal inicial.</td></tr>
+            <tr><td>Ley del Acento ⚖️</td><td>Aguda (+1), Grave (=), Esdrújula (-1).</td></tr>
+            <tr><td rowspan="2"><b>Rima 🔔</b></td><td>Consonante</td><td>Coinciden vocales y consonantes (Completa).</td></tr>
+            <tr><td>Asonante</td><td>Coinciden solo las vocales (Apenas).</td></tr>
+            <tr><td rowspan="5"><b>Recursos 🎨</b></td><td>Personificación 👤</td><td>Dar rasgos humanos a objetos.</td></tr>
+            <tr><td>Comparación 🔍</td><td>Usa el "como" para unir dos ideas.</td></tr>
+            <tr><td>Metáfora 🎭</td><td>Dice que una cosa es otra.</td></tr>
+            <tr><td>I. Sensoriales 🖐️</td><td>Apelan a los 5 sentidos.</td></tr>
+            <tr><td>Encabalgamiento 🐎</td><td>La idea salta al siguiente verso.</td></tr>
+        </table>
+    </div>
+
     <div class="header">
         <div class="titulo-mau">Matriz de Aprendizaje Ubicuo (MAU)</div>
         <div class="subtitulo-mau">Innovación en Dispositivos Digitales Autogestivos</div>
         <div class="info-linea">Materia: Lengua - Recursos Poéticos y Canciones</div>
     </div>
+
+    <button class="btn-resumen" onclick="toggleResumen()">CUADRO RESUMEN DE LA TEMÁTICA</button>
 
     <div class="tabs">
         <button class="tab active" onclick="switchTab('aprender', this)">📖 APRENDE</button>
@@ -83,39 +117,29 @@
 
     <div id="panel-aprender" class="panel active">
         <div class="music-grid">
-            <a href="https://m.youtube.com/watch?v=kYJv97_4K1A" target="_blank" class="music-btn">♫ POP</a>
-            <a href="https://m.youtube.com/watch?v=9S75p-8zU_8" target="_blank" class="music-btn">♫ ROCK</a>
-            <a href="https://m.youtube.com/watch?v=fS6M-k2n9mQ" target="_blank" class="music-btn">♫ BEAT</a>
-            <a href="https://m.youtube.com/watch?v=vV_X186E9OQ" target="_blank" class="music-btn">♫ TRAP</a>
+            <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN?is_from_share=1" target="_blank" class="music-btn">♫ CANCIÓN PROYECTO A</a>
+            <a href="https://www.mureka.ai/song-detail/WcP6nv1BeTSTBNKvGXeWbN?is_from_share=1" target="_blank" class="music-btn">♫ CANCIÓN PROYECTO B</a>
         </div>
 
         <div class="contador"><span id="numAprender">1</span> / 30</div>
-
         <div class="card" onclick="this.classList.toggle('flipped')">
             <div class="card-inner">
-                <div class="front">
-                    <div id="fAprender" style="font-size: 1.1em; font-weight: bold;">Cargando...</div>
-                    <div class="instruccion">PULSE SUAVEMENTE</div>
-                </div>
+                <div class="front"><div id="fAprender" style="font-size: 1.1em; font-weight: bold;">Cargando...</div><div class="instruccion">PULSE SUAVEMENTE</div></div>
                 <div class="back" id="bAprender">...</div>
             </div>
         </div>
-
-        <div class="controls">
+        <div style="display:flex; gap:10px; width:100%;">
             <button class="nav-btn" onclick="move(-1)">← ANTERIOR</button>
             <button class="nav-btn" onclick="move(1)">SIGUIENTE →</button>
         </div>
     </div>
 
     <div id="panel-jugar" class="panel">
-        <div class="wheel-container">
-            <div class="pointer"></div>
-            <div class="wheel" id="wheel"></div>
-        </div>
+        <div class="wheel-container"><div class="pointer"></div><div class="wheel" id="wheel"></div></div>
         <button class="btn-spin" onclick="spinWheel()">GIRA LA RULETA</button>
         <div class="card" id="cardJuego" onclick="this.classList.toggle('flipped')">
             <div class="card-inner">
-                <div class="front" id="fJuego">¡Probá tu memoria!</div>
+                <div class="front" id="fJuego"></div>
                 <div class="back" id="bJuego">...</div>
             </div>
         </div>
@@ -127,35 +151,39 @@
             { f: "Estrofa", b: "Conjunto de versos que se agrupan en un bloque, separados por un espacio." },
             { f: "Métrica", b: "Es la medida de las sílabas que tiene un verso siguiendo reglas rítmicas." },
             { f: "Sinalefa", b: "Unión de la vocal final de una palabra con la inicial de la siguiente en una sola sílaba métrica." },
-            { f: "Rima Consonante", b: "Coinciden vocales y consonantes desde la última vocal tónica. Ej: 'Canci-ÓN' / 'Coraz-ÓN' (coinciden desde la O)." },
-            { f: "Rima Asonante", b: "Solo coinciden las vocales desde la última vocal tónica. Ej: 'C-A-s-A' / 'p-A-m-A' (coinciden solo las A)." },
+            { f: "Rima Consonante", b: "Coinciden vocales y consonantes desde la última vocal tónica. Ej: 'Canci-ÓN' / 'Coraz-ÓN'." },
+            { f: "Rima Asonante", b: "Solo coinciden las vocales desde la última vocal tónica. Ej: 'C-A-s-A' / 'p-A-m-A'." },
             { f: "Acento Agudo (+1)", b: "Si la última palabra del verso es aguda, se suma una sílaba al conteo métrico." },
             { f: "Acento Esdrújulo (-1)", b: "Si la última palabra del verso es esdrújula, se resta una sílaba al conteo métrico." },
             { f: "Acento Grave (0)", b: "Si la última palabra es grave, el número de sílabas se mantiene igual." },
             { f: "Metáfora", b: "Recurso que identifica un término real con uno imaginario (Ej: 'Tus ojos son luceros')." },
             { f: "Comparación", b: "Relación de semejanza entre dos elementos usando nexos como 'como' o 'cual'." },
-            { f: "Personificación", b: "Atribuir características, sentimientos o acciones humanas a objetos o animales." },
+            { f: "Personificación", b: "Atribuir características o acciones humanas a objetos o animales." },
             { f: "Hipérbole", b: "Consiste en exagerar una idea o realidad para aumentar su impacto." },
             { f: "Anáfora", b: "Repetición de una o varias palabras al comienzo de versos sucesivos." },
-            { f: "Aliteración", b: "Repetición intencional de sonidos para crear un efecto auditivo o musical." },
-            { f: "Encabalgamiento", b: "Se produce cuando la unidad sintáctica de un verso continúa en el verso siguiente." },
-            { f: "Octosílabo", b: "Verso de ocho sílabas. Es la medida más frecuente en nuestra música popular." },
+            { f: "Aliteración", b: "Repetición intencional de sonidos para crear un efecto auditivo." },
+            { f: "Encabalgamiento", b: "Se produce cuando la unidad sintáctica de un verso continúa en el siguiente." },
+            { f: "Octosílabo", b: "Verso de ocho sílabas. Muy frecuente en la música popular." },
             { f: "Imagen Visual", b: "Palabras que representan lo que percibimos a través de la vista." },
             { f: "Imagen Auditiva", b: "Palabras que evocan sonidos, ruidos o sensaciones sonoras." },
-            { f: "Imagen Táctil", b: "Recurso que remite a sensaciones percibidas por la piel (frío, calor, textura)." },
+            { f: "Imagen Táctil", b: "Recurso que remite a sensaciones percibidas por la piel." },
             { f: "Imagen Gustativa", b: "Uso de vocablos que refieren a sabores y sensaciones del gusto." },
-            { f: "Imagen Olfativa", b: "Términos que evocan aromas o fragancias en el lector." },
-            { f: "Estribillo", b: "Verso o estrofa que se repite a intervalos, generalmente tras el coro." },
-            { f: "Musicalidad", b: "Efecto rítmico que resulta de la combinación de rima, métrica y acentos." },
+            { f: "Imagen Olfativa", b: "Términos que evocan aromas o fragancias." },
+            { f: "Estribillo", b: "Verso o estrofa que se repite a intervalos en una canción." },
+            { f: "Musicalidad", b: "Efecto rítmico que resulta de combinar rima, métrica y acentos." },
             { f: "Pausa Versal", b: "Breve interrupción que se produce al final de cada verso." },
             { f: "Sinalefa con 'H'", b: "La presencia de la 'h' inicial no impide la formación de la sinalefa." },
             { f: "Verso Libre", b: "Verso que no está sujeto a una medida fija ni a rima determinada." },
-            { f: "Recurso Poético", b: "Herramienta que utiliza el autor para dar mayor expresividad y belleza al texto." },
+            { f: "Recurso Poético", b: "Herramienta para dar mayor expresividad y belleza al texto." },
             { f: "Ritmo", b: "Distribución de acentos y pausas que otorgan movimiento al poema." },
             { f: "Poesía y Canción", b: "Vinculación donde la estructura del texto dicta la base del ritmo musical." }
         ];
 
         let idx = 0; let rotation = 0;
+        function toggleResumen() {
+            const m = document.getElementById('modalResumen');
+            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+        }
         function switchTab(m, b) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
