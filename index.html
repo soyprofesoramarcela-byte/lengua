@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAU - Lengua 46-47</title>
+    <title>MAU - Lengua</title>
     <style>
         :root { --bg: #1a1a2e; --accent: #e94560; --btn-sec: #6a1b9a; }
         body { font-family: sans-serif; background: var(--bg); color: white; display: flex; flex-direction: column; align-items: center; padding: 5px; margin: 0; overflow-x: hidden; }
@@ -11,32 +11,38 @@
         .header { text-align: center; margin-bottom: 5px; }
         .header h1 { font-size: 0.9rem; color: #4e9af1; margin: 2px; }
 
+        /* Pestañas */
         .tabs { display: flex; gap: 8px; margin-bottom: 8px; width: 95%; max-width: 320px; }
         .tab-btn { flex: 1; padding: 8px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; background: #333; color: white; font-size: 0.75rem; }
         .tab-btn.active { background: var(--btn-sec); }
 
-        /* Ruleta achicada a 180px */
+        /* Ruleta chica para que entre todo */
         .wheel-box { position: relative; width: 180px; height: 180px; margin-bottom: 5px; }
-        canvas { width: 100%; height: 100%; transition: transform 3s cubic-bezier(0.1, 0, 0.2, 1); }
+        canvas { width: 100%; height: 100%; transition: transform 3s cubic-bezier(0.1, 0, 0.2, 1); border-radius: 50%; }
         .pointer { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 15px solid var(--accent); z-index: 10; }
 
-        .btn-main { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 20px; width: 220px; font-weight: bold; cursor: pointer; font-size: 0.85rem; margin-bottom: 8px; }
+        .btn-main { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 20px; width: 200px; font-weight: bold; cursor: pointer; font-size: 0.85rem; margin-bottom: 5px; }
 
-        .card-container { perspective: 1000px; width: 90%; max-width: 300px; height: 130px; }
+        /* Contador */
+        #contador { font-size: 0.7rem; margin-bottom: 5px; color: #aaa; }
+
+        /* Flashcard */
+        .card-container { perspective: 1000px; width: 90%; max-width: 300px; height: 130px; margin-bottom: 10px; }
         .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s; cursor: pointer; }
         .card.flipped { transform: rotateY(180deg); }
-        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 10px; box-sizing: border-box; border-radius: 12px; text-align: center; }
+        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 12px; box-sizing: border-box; border-radius: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .front { background: white; color: #333; font-weight: bold; font-size: 0.9rem; border: 2px solid var(--btn-sec); }
         .back { background: #f0f0f0; color: #2980b9; transform: rotateY(180deg); font-size: 0.85rem; font-weight: bold; border: 2px solid var(--accent); }
 
-        .music-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; width: 95%; margin-top: 10px; }
-        .btn-music { background: #444; color: white; border: none; padding: 6px 2px; border-radius: 4px; font-size: 0.6rem; cursor: pointer; font-weight: bold; }
+        /* Música */
+        .music-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; width: 95%; margin-top: 5px; }
+        .btn-music { background: #444; color: white; border: none; padding: 6px 2px; border-radius: 4px; font-size: 0.55rem; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Matriz de Aprendizaje Ubicuo</h1>
+        <h1>Aprendizaje Ubicuo - Lengua</h1>
         <div class="tabs">
             <button id="btnAprende" class="tab-btn active" onclick="setMode('aprende')">📖 APRENDE</button>
             <button id="btnDesafio" class="tab-btn" onclick="setMode('desafio')">🔥 DESAFÍO</button>
@@ -49,11 +55,12 @@
     </div>
     
     <button class="btn-main" id="mainAction" onclick="lanzar()">GIRA LA RULETA</button>
+    <div id="contador">Tarjetas vistas: 0 / 30</div>
 
     <div class="card-container">
-        <div class="card" id="flashcard" onclick="this.classList.toggle('flipped')">
-            <div class="front" id="cardFront">¡Elegí un modo y girá!</div>
-            <div class="back" id="cardBack">La respuesta aparecerá aquí.</div>
+        <div class="card" id="flashcard" onclick="voltear()">
+            <div class="front" id="cardFront">¡Toca la ruleta para empezar!</div>
+            <div class="back" id="cardBack">Aquí verás la explicación técnica.</div>
         </div>
     </div>
 
@@ -77,29 +84,30 @@
             { f: "Rima Consonante", b: "Coinciden todos los sonidos desde el último acento." },
             { f: "Rima Asonante", b: "Solo coinciden las vocales desde el último acento." },
             { f: "Octosílabo", b: "Verso que tiene ocho sílabas métricas." },
-            { f: "Métrica", b: "Es la medida silábica de los versos siguiendo reglas poéticas." },
             { f: "Imagen Visual", b: "Recurso que evoca algo percibido por la vista." },
             { f: "Imagen Auditiva", b: "Recurso que evoca sonidos o ruidos." },
+            { f: "Métrica", b: "Medida silábica de los versos según reglas poéticas." },
             { f: "Verso Libre", b: "Sin medida fija ni rima, con ritmo interno." },
             { f: "Rima (Def)", b: "Coincidencia de sonidos a partir de la última vocal acentuada." },
             { f: "Imagen Gustativa", b: "Recurso sensorial que evoca sabores (ej: dulce)." },
             { f: "Imagen Olfativa", b: "Recurso sensorial que evoca olores o fragancias." },
-            { f: "Recursos Literarios", b: "Herramientas que usa el autor para dar belleza y ritmo." },
-            { f: "Estrofa", b: "Conjunto de versos agrupados en una unidad dentro del poema." },
-            { f: "Poema", b: "Composición literaria escrita en verso que expresa subjetividad." },
-            { f: "Ritmo Poético", b: "Musicalidad lograda por la distribución de acentos y pausas." },
-            { f: "Licencia Poética", b: "Recursos como la sinalefa que permiten ajustar la medida." },
-            { f: "Semaforo de Rima", b: "Técnica visual para marcar rimas consonantes y asonantes." },
+            { f: "Imagen Táctil", b: "Sensación percibida por el tacto (ej: frío, suave)." },
+            { f: "Recursos Literarios", b: "Herramientas del autor para dar belleza y ritmo." },
+            { f: "Estrofa", b: "Conjunto de versos agrupados en una unidad del poema." },
+            { f: "Poema", b: "Composición literaria en verso que expresa subjetividad." },
+            { f: "Ritmo Poético", b: "Musicalidad lograda por acentos, pausas y medida." },
+            { f: "Licencia Poética", b: "Recursos como la sinalefa para ajustar la métrica." },
+            { f: "Semáforo de Rima", b: "Técnica visual para marcar rimas en el texto." },
             { f: "Vocal acentuada", b: "Referencia para determinar dónde empieza la rima." },
-            { f: "Imagen Táctil", b: "Recurso sensorial percibido por el tacto." },
             { f: "Identidad Directa", b: "Característica de la Metáfora: un objeto 'es' otro." },
-            { f: "Nexo Comparativo", b: "Palabras como 'como' o 'cual' que definen la Comparación." },
-            { f: "Sentido Figurado", b: "Uso de palabras con un significado distinto al literal." },
+            { f: "Nexo Comparativo", b: "Palabras como 'como' que definen la Comparación." },
+            { f: "Sentido Figurado", b: "Uso de palabras con significado distinto al literal." },
             { f: "Unidad Sintáctica", b: "El sentido de la frase que desborda el verso." }
         ];
 
         let mode = 'aprende';
         let rotation = 0;
+        let vistas = new Set();
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         const colors = ['#f1c40f','#e67e22','#e74c3c','#9b59b6','#3498db','#2ecc71','#1abc9c','#ecf0f1','#95a5a6','#d35400'];
@@ -109,6 +117,7 @@
             document.getElementById('btnAprende').classList.toggle('active', m === 'aprende');
             document.getElementById('btnDesafio').classList.toggle('active', m === 'desafio');
             document.getElementById('mainAction').innerText = m === 'aprende' ? 'GIRA LA RULETA' : '¡DAME UN DESAFÍO!';
+            document.getElementById('flashcard').classList.remove('flipped');
         }
 
         function draw() {
@@ -123,15 +132,29 @@
             rotation += (Math.floor(Math.random() * 360) + 1440);
             canvas.style.transform = `rotate(${rotation}deg)`;
             document.getElementById('flashcard').classList.remove('flipped');
+
             setTimeout(() => {
-                const res = data[Math.floor(Math.random() * data.length)];
-                document.getElementById('cardFront').innerText = mode === 'aprende' ? res.f : "¿Qué es " + res.f + "?";
-                document.getElementById('cardBack').innerText = res.b;
+                const idx = Math.floor(Math.random() * data.length);
+                const res = data[idx];
+                vistas.add(idx);
+                document.getElementById('contador').innerText = `Tarjetas vistas: ${vistas.size} / 30`;
+                
+                if(mode === 'aprende') {
+                    document.getElementById('cardFront').innerText = res.f;
+                    document.getElementById('cardBack').innerText = res.b;
+                } else {
+                    document.getElementById('cardFront').innerText = "¿Qué es " + res.f + "?";
+                    document.getElementById('cardBack').innerText = "Definición: " + res.b;
+                }
             }, 3000);
         }
 
+        function voltear() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
         function playM(url) {
-            window.open(url, '_blank'); // Abre la canción en una pestaña nueva
+            window.open(url, '_blank');
         }
 
         draw();
